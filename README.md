@@ -1,110 +1,123 @@
-# ZeroSyntax v2
-
 <p align="center">
-  <img src="icon/ZeroSyntaxLogo256.png" alt="ZeroSyntax logo">
+  <img src="resources/ZeroSyntaxLogo256.png" alt="ZeroSyntax logo">
 </p>
 
-[![CI](https://github.com/ViTeXFTW/ZeroSyntaxV2/actions/workflows/ci.yml/badge.svg)](https://github.com/ViTeXFTW/ZeroSyntaxV2/actions/workflows/ci.yml)
-[![Release](https://github.com/ViTeXFTW/ZeroSyntaxV2/actions/workflows/release.yml/badge.svg)](https://github.com/ViTeXFTW/ZeroSyntaxV2/actions/workflows/release.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<p align="center">
+  <a href="https://github.com/ViTeXFTW/ZeroSyntaxV2/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/ViTeXFTW/ZeroSyntaxV2/ci.yml?style=for-the-badge&label=CI" alt="CI">
+  </a>
+  <a href="https://github.com/ViTeXFTW/ZeroSyntaxV2/releases/latest">
+    <img src="https://img.shields.io/github/v/release/ViTeXFTW/ZeroSyntaxV2?style=for-the-badge" alt="Latest Release">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License: MIT">
+  </a>
+</p>
 
-ZeroSyntax v2 brings modern editor support to the INI scripting files used by
-*Command & Conquer: Generals – Zero Hour*. It helps modders and map authors find
-mistakes early and navigate large game or mod workspaces.
+## 📝 About the projet
+This project was born from the frustration when creating maps with `map.ini` changes. The SAGE engine is very selective and will crash if files contain unknown fields or values, being a software developer I wished language features such as diagnostics and completions was a part of the development flow. Thus `ZeroSyntax` was born.
 
-The project includes the IDE-independent `zerosyntax-lsp` language server and a
-VS Code extension with the server bundled.
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+## ⚡ Quick start
+The easiest way to get started is to use the VSCode extension inside VSCode. This will install the server and automatically recognize INI files
 
-## What you get
+1. Open VSCode
+2. Go to the `Extensions` tab
+3. Search `ZeroSyntaxV2`
+4. Install the extension
 
-- Schema-aware diagnostics and quick fixes for blocks, fields, modules, values,
-  references, module tags, and missing `End` statements.
-- Context-aware completion for INI keywords, enum values, flags, and definitions
-  in your workspace.
-- Hover information, go to definition, find references, rename, workspace and
-  document symbols, and folding.
-- Semantic highlighting for Generals INI files.
-- Optional indentation formatting, disabled by default so existing files are
-  never reformatted without your consent.
-- Base-game and mod indexing for `map.ini` and `solo.ini`, including W3D model
-  and bone checks. Selecting a `Model =` completion shows a textured W3D
-  thumbnail when the indexed asset is available, with configurable size and
-  zoom.
+<p align="center">
+  <img src="resources/readme-examples/vscode_install_example.png" alt="ZeroSyntax logo">
+</p>
 
-## Install the VS Code extension
+Opening a map folder or ini file will now be parsed and checked for syntax errors.
 
-ZeroSyntax supports Windows x64 and Linux x64 release builds.
+To expand on features go to the settings page in VSCode and find the `ZeroSyntax` extension. One of the settings will say `baseIniRoots`, here you can add the path to your desired game folder for `ZeroSyntax` to parse and read your game files. This will provide completions for models, bones, texutres, audio and more specific to that game install.
 
-1. Download the `.vsix` for your platform from the
-   [latest GitHub release](https://github.com/ViTeXFTW/ZeroSyntaxV2/releases/latest).
-2. In VS Code, open **Extensions**, choose **Views and More Actions …**,
-   select **Install from VSIX…**, and open the downloaded file.
-3. Open your mod or map folder, then open an `.ini` file.
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-The extension treats `.ini` files as **Generals INI**. If a workspace also
-contains unrelated INI files, use VS Code's `files.associations` setting to
-limit that language association to the appropriate folders.
+## 💡 Examples
 
-See the [VS Code extension guide](editors/vscode/README.md) for settings and
-troubleshooting.
 
-## Use the standalone language server
+### 1. ❌ Diagnostics
+When incorrect values are parsed to fields the extension will create an error for this  
 
-Download the `zerosyntax-lsp` archive for your platform from the
-[latest release](https://github.com/ViTeXFTW/ZeroSyntaxV2/releases/latest),
-extract it, and configure your editor to run the binary over stdio.
+![value_diagnostic](./resources/readme-examples/value_diagnostic_percentage.png)
 
-See the [language server guide](docs/language-server.md) for initialization
-options and editor integration details.
+Similar objects or types which hasn't been defined yet will also give warnings  
 
-## Check files from the command line
+![reference_diagnostic](./resources/readme-examples/reference_diagnostic_value.png)
 
-The same binary can run diagnostics without an editor:
+### 2. ✅ Completions
+When the `baseIniRoots` setting is pointing to the game install certain completions will be availble, like model references  
 
-```sh
-zerosyntax-lsp check Data/INI
-zerosyntax-lsp check map.ini --base-root "C:/Games/Zero Hour"
-zerosyntax-lsp check --json --stdin-filename map.ini - < generated.ini
+![model_completion](./resources/readme-examples/model_completion_example.png)
+
+### 3. ✏️ Snippets
+Common boilerplate code and long field/value pairs will be suggested and fill out all required text and allow the user to select only the customizable values
+
+<div align="center">
+  <img src="./resources/readme-examples/snippet_example.gif" alt="snippet_example" />
+</div>
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+## ⚙️ Commands & Settings
+
+Open **Settings** in VSCode and search for `ZeroSyntax` to configure the extension. Open the Command Palette (`Ctrl+Shift+P`) and search for `ZeroSyntax` to run its commands.
+
+### Recommended settings
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `zerosyntax.baseIniRoots` | `[]` | Add every game/mod folder or `.big` archive loaded before your project. This enables accurate references and asset completions for models, bones, textures, and audio. |
+| `zerosyntax.server.path` | Empty (uses bundled server) | Leave empty for normal use. Set an absolute path only when using a separately installed or locally built `zerosyntax-lsp` binary. |
+| `zerosyntax.analysis.allowPercentagesWithoutSign` | `false` | Allow engine-compatible percentage values without a trailing `%`. |
+| `zerosyntax.preview.enable` | `true` | Show W3D model thumbnails in completion details. Disable this on slower hardware. |
+| `zerosyntax.format.enable` | `false` | Enable indentation formatting and format-on-save support. It is off by default to preserve existing formatting. |
+| `zerosyntax.schema.path` | `[]` | Add path to a different schmea file for custom diagnostics. |
+
+### Commands
+
+| Command | Description |
+| --- | --- |
+| **ZeroSyntax: Rebuild Index Cache** | Clear and rebuild the index after game, mod, or asset files change outside VSCode. |
+| **ZeroSyntax: Clear Index Cache** | Remove cached index data. It will be recreated during the next scan. |
+| **ZeroSyntax: Open Index Cache Location** | Reveal the persistent cache on disk for inspection or troubleshooting. |
+| **ZeroSyntax: Select Custom Schema** | Choose a custom schema JSON for development or advanced mod support. Most users should keep the built-in schema. |
+
+When using the server without the VSCode extension, configure your LSP client to run `zerosyntax-lsp` over **stdio** for Zero Hour `.ini` files and set the workspace root to the map or mod folder. See the [language server guide](docs/language-server.md) for all initialization options.
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+### Suppressing diagnostics with a pragma
+
+Add a file-scope comment to disable selected diagnostics for the entire file:
+
+```ini
+; zerosyntax-disable: unknown-field, unresolved-reference
 ```
 
-This is intended for CI, pre-commit checks, and LLM edit/check loops. Errors
-produce exit code 1 by default; add `--fail-on warning` for a stricter gate.
-See the [standalone guide](docs/language-server.md#command-line-diagnostics) for
-the complete output and exit-code contract.
+Place the pragma outside any block, usually at the top of the file. Codes may be separated by commas or spaces, and multiple pragma lines are combined. VSCode also offers **Suppress `<code>` in this file** as a quick fix. A misspelled code produces an `unknown-suppression` hint.
 
-## Configure map and model checks
+Available codes are:
+- Structure and definitions: `syntax`, `stray-field`, `unknown-block`,
+  `overrides`, `duplicate-definition`, `unknown-field`.
+- Values: `missing-condition`, `missing-value`, `bad-bool`, `non-positive`,
+  `bad-percent`, `bad-color`, `bad-coord`, `bad-number`, `bad-enum`, `bad-flag`,
+  `bad-prefixed`.
+- References and assets: `unresolved-reference`, `unknown-model`,
+  `unknown-model-member`, `unknown-audio-file`, `unknown-texture`.
+- Modules: `missing-module-tag`, `unknown-module`, `unknown-module-tag`,
+  `module-wrong-slot`, `duplicate-module-tag`, `editor-default-module`,
+  `default-modules-not-removed`.
+- Map checks: `map-forward-reference`, `map-projectile-object`,
+  `unreachable-set`.
+- Pragmas: `unknown-suppression`.
 
-For complete `map.ini` and `solo.ini` diagnostics, set
-`zerosyntax.baseIniRoots` in VS Code to the base game or mod directories and/or
-`.big` archives that load before the map. The same setting also enables W3D
-model and bone completion and validation.
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-`zerosyntax.analysis.modelMemberStrictness` controls bone/subobject warnings:
-`off`, `compatible` (the default; present in any applicable model), or `strict`
-(present in every applicable model).
+## ⚠️ License & Notice
+ZeroSyntaxV2 is available under the [MIT Licsense](./LICENSE)
 
-```json
-{
-  "zerosyntax.baseIniRoots": [
-    "C:/Games/Zero Hour",
-    "C:/Mods/MyMod/Data/INI",
-    "C:/Mods/MyMod.big"
-  ]
-}
-```
-
-## Documentation
-
-- [Diagnostics, suppression, and quick fixes](docs/diagnostics.md)
-- [Standalone language server setup](docs/language-server.md)
-- [Contributing](CONTRIBUTING.md)
-- [Support](SUPPORT.md)
-- [Security policy](SECURITY.md)
-
-## License and trademarks
-
-ZeroSyntax v2 is available under the [MIT License](LICENSE).
-
-ZeroSyntax v2 is an unofficial community project and is not affiliated with,
-endorsed by, or sponsored by Electronic Arts. Command & Conquer and related
-names are trademarks of their respective owners.
+ZeroSyntaxV2 is an unofficial community project and is not affiliated with, endorsed by, or sponsored by Electronic Arts. Command & Conquer and related names are trademarks of their respective owners.
