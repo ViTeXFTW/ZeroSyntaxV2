@@ -14,7 +14,7 @@
   </a>
 </p>
 
-## 📝 About the projet
+## 📝 About the project
 This project was born from the frustration when creating maps with `map.ini` changes. The SAGE engine is very selective and will crash if files contain unknown fields or values, being a software developer I wished language features such as diagnostics and completions was a part of the development flow. Thus `ZeroSyntax` was born.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
@@ -32,12 +32,14 @@ The easiest way to get started is to use the VSCode extension inside VSCode. Thi
 
 Opening a map folder or ini file will now be parsed and checked for syntax errors.
 
-To expand on features go to the settings page in VSCode and find the `ZeroSyntax` extension. One of the settings will say `baseIniRoots`, here you can add the path to your desired game folder for `ZeroSyntax` to parse and read your game files. This will provide completions for models, bones, texutres, audio and more specific to that game install.
+> [!WARNING]
+> The server will recognize all `.ini` files as Generals Zero Hour ini files, disable the extension if you need to edit normal files.
+
+To expand on features go to the settings page in VSCode and find the `ZeroSyntax` extension. One of the settings will say `baseIniRoots`, here you can add the path to your desired game folder for `ZeroSyntax` to parse and read your game files. This will provide completions for models, bones, textures, audio and more specific to that game install.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 ## 💡 Examples
-
 
 ### 1. ❌ Diagnostics
 When incorrect values are parsed to fields the extension will create an error for this  
@@ -49,7 +51,7 @@ Similar objects or types which hasn't been defined yet will also give warnings
 ![reference_diagnostic](./resources/readme-examples/reference_diagnostic_value.png)
 
 ### 2. ✅ Completions
-When the `baseIniRoots` setting is pointing to the game install certain completions will be availble, like model references  
+When the `baseIniRoots` setting is pointing to the game install certain completions will be available, like model references  
 
 ![model_completion](./resources/readme-examples/model_completion_example.png)
 
@@ -75,7 +77,7 @@ Open **Settings** in VSCode and search for `ZeroSyntax` to configure the extensi
 | `zerosyntax.analysis.allowPercentagesWithoutSign` | `false` | Allow engine-compatible percentage values without a trailing `%`. |
 | `zerosyntax.preview.enable` | `true` | Show W3D model thumbnails in completion details. Disable this on slower hardware. |
 | `zerosyntax.format.enable` | `false` | Enable indentation formatting and format-on-save support. It is off by default to preserve existing formatting. |
-| `zerosyntax.schema.path` | `[]` | Add path to a different schmea file for custom diagnostics. |
+| `zerosyntax.schema.path` | `""` | Add path to a different schema file for custom diagnostics. |
 
 ### Commands
 
@@ -118,6 +120,6 @@ Available codes are:
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 ## ⚠️ License & Notice
-ZeroSyntaxV2 is available under the [MIT Licsense](./LICENSE)
+ZeroSyntaxV2 is available under the [MIT License](./LICENSE)
 
 ZeroSyntaxV2 is an unofficial community project and is not affiliated with, endorsed by, or sponsored by Electronic Arts. Command & Conquer and related names are trademarks of their respective owners.
