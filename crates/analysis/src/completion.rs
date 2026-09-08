@@ -6,7 +6,7 @@
 //! * after `=` -> enum/bitflag members, `Yes`/`No`, module names, or (with the
 //!   workspace index) names of the referenced definition kind.
 
-use zerosyntax_schema::{AudioExtension, ValueType};
+use zerosyntax_schema::{AudioExtension, RefKind, ValueType};
 use zerosyntax_syntax::ast::{Block, Field, Module};
 use zerosyntax_syntax::{Parse, SyntaxKind, SyntaxNode};
 
@@ -52,9 +52,10 @@ pub fn complete(
     file: Option<&str>,
 ) -> Vec<Completion> {
     let root = parse.syntax();
-    let ctx = classify_position(analyzer, &root, offset);
+    let ctx = classify_position(analyzer, &root, offset, file);
     match ctx {
         PosContext::TopLevel => top_level_completions(analyzer),
+        PosContext::ObjectName => object_name_completions(index),
         PosContext::FieldKey(scope_node) => field_key_completions(analyzer, &scope_node),
         PosContext::FieldValue {
             scope_node,
@@ -83,6 +84,11 @@ pub fn complete(
 
 enum PosContext {
     TopLevel,
+    /// Completing a top-level Object name in a map override layer. Existing
+    /// objects are useful override targets, but this is deliberately a
+    /// completion context rather than a Reference value: map files may also
+    /// introduce entirely new object names.
+    ObjectName,
     /// Completing a field/slot keyword inside this scope node.
     FieldKey(SyntaxNode),
     /// Completing the value of `key` inside this scope node; `value_index` is
@@ -108,7 +114,12 @@ enum PosContext {
     },
 }
 
-fn classify_position(analyzer: &Analyzer, root: &SyntaxNode, offset: u32) -> PosContext {
+fn classify_position(
+    analyzer: &Analyzer,
+    root: &SyntaxNode,
+    offset: u32,
+    file: Option<&str>,
+) -> PosContext {
     let off = rowan::TextSize::from(offset.min(root.text_range().end().into()));
     let element = root.covering_element(rowan::TextRange::empty(off));
     let node = match &element {
@@ -252,6 +263,9 @@ fn classify_position(analyzer: &Analyzer, root: &SyntaxNode, offset: u32) -> Pos
                 if offset <= u32::from(kw.text_range().end()) {
                     return PosContext::TopLevel;
                 }
+                if file.is_some_and(is_override_layer) && kw.text().eq_ignore_ascii_case("Object") {
+                    return PosContext::ObjectName;
+                }
             }
         }
         return PosContext::FieldKey(block_node);
@@ -259,6 +273,25 @@ fn classify_position(analyzer: &Analyzer, root: &SyntaxNode, offset: u32) -> Pos
 
     // Not inside anything -> file scope.
     PosContext::TopLevel
+}
+
+fn is_override_layer(file: &str) -> bool {
+    file.rsplit(['/', '\\']).next().is_some_and(|name| {
+        name.eq_ignore_ascii_case("map.ini") || name.eq_ignore_ascii_case("solo.ini")
+    })
+}
+
+fn object_name_completions(index: Option<&WorkspaceIndex>) -> Vec<Completion> {
+    index
+        .into_iter()
+        .flat_map(|idx| idx.override_target_names(RefKind::Object))
+        .map(|name| Completion {
+            label: name.to_string(),
+            kind: CompletionKind::Reference,
+            detail: Some("Object (override target)".into()),
+            insert: None,
+        })
+        .collect()
 }
 
 fn field_key_completions(analyzer: &Analyzer, scope_node: &SyntaxNode) -> Vec<Completion> {
@@ -1064,6 +1097,73 @@ mod tests {
                 .any(|item| item.label == "ModuleTag_DefaultDestroyDie"),
             "{out:?}"
         );
+    }
+
+    #[test]
+    fn map_object_header_suggests_existing_objects_without_requiring_one() {
+        let a = Analyzer::embedded();
+        let mut index = WorkspaceIndex::new();
+        let base = a.parse("Object AmericaVehicleHumvee\nEnd\n");
+        index.set_file(
+            "data/INI/Object.ini",
+            crate::index::definitions_in(&a, &base, "data/INI/Object.ini"),
+        );
+        let map_only = a.parse("Object MapOnlyObject\nEnd\n");
+        index.set_file(
+            "maps/other/map.ini",
+            crate::index::definitions_in(&a, &map_only, "maps/other/map.ini"),
+        );
+
+        // `NewMapObject` intentionally does not exist in the index: an Object
+        // header in map.ini may define a new template as well as override one.
+        let src = "Object NewMapObject\nEnd\n";
+        let offset = "Object New".len() as u32;
+        let out = complete(
+            &a,
+            &a.parse(src),
+            offset,
+            Some(&index),
+            Some("maps/map.ini"),
+        );
+        assert!(
+            out.iter().any(|item| item.label == "AmericaVehicleHumvee"),
+            "{out:?}"
+        );
+        assert!(
+            !out.iter().any(|item| item.label == "MapOnlyObject"),
+            "{out:?}"
+        );
+
+        let blank_header = "Object \nEnd\n";
+        let blank_out = complete(
+            &a,
+            &a.parse(blank_header),
+            "Object ".len() as u32,
+            Some(&index),
+            Some("maps/map.ini"),
+        );
+        assert!(
+            blank_out
+                .iter()
+                .any(|item| item.label == "AmericaVehicleHumvee"),
+            "{blank_out:?}"
+        );
+
+        // This is a completion-only affordance; typing a new name remains
+        // valid and produces no unknown-reference diagnostic.
+        assert!(crate::diagnostics::diagnose(
+            &a,
+            &a.parse(src),
+            Some(&index),
+            Some("maps/map.ini")
+        )
+        .iter()
+        .all(|diagnostic| diagnostic.code != "unresolved-reference"));
+
+        let non_map = complete(&a, &a.parse(src), offset, Some(&index), Some("Object.ini"));
+        assert!(!non_map
+            .iter()
+            .any(|item| item.label == "AmericaVehicleHumvee"));
     }
 
     #[test]
