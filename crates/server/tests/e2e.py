@@ -84,6 +84,13 @@ def main() -> int:
         w3d_chunk(0x38, w3d_chunk(0x48, w3d_chunk(0x49, struct.pack("<I", 0)))),
     ]))
     (workspace / "Preview.w3d").write_bytes(preview_w3d)
+    animated_header = struct.pack("<II16s16s", 1, 0, b"Animated", b"DemoSKL")
+    (workspace / "Animated.w3d").write_bytes(
+        w3d_chunk(0x700, w3d_chunk(0x701, animated_header)))
+    for name, skeleton, kind in [("Run", "DemoSKL", 0x200), ("Idle", "DemoSKL", 0x280),
+                                  ("Fly", "OtherSKL", 0x200)]:
+        header = struct.pack("<I16s16sII", 1, name.encode(), skeleton.encode(), 30, 30)
+        (workspace / f"{name}.w3d").write_bytes(w3d_chunk(kind, w3d_chunk(kind + 1, header)))
     preview_tga = bytes([0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 32, 0x20])
     preview_tga += bytes([
         0, 0, 255, 255, 0, 255, 0, 255,
@@ -343,6 +350,63 @@ def main() -> int:
     encoded_png = markdown.split("data:image/png;base64,", 1)[1].split("|", 1)[0]
     assert base64.b64decode(encoded_png).startswith(b"\x89PNG\r\n\x1a\n")
     print("OK: model completion resolves lazily to a textured PNG preview")
+
+    # Qualified animation suggestions replace the entire dotted name, leaving
+    # optional numeric arguments intact, and use the inherited state's model.
+    animation_uri = (workspace / "Animation.ini").as_uri()
+    animation_text = (
+        "Object AnimatedObject\n"
+        " Draw = W3DModelDraw Tag\n"
+        "  DefaultConditionState\n"
+        "   Model = Animated\n"
+        "  End\n"
+        "  ConditionState = MOVING\n"
+        "   Animation = DemoSKL.R 16\n"
+        "  End\n"
+        " End\n"
+        "End\n"
+    )
+    send({"jsonrpc": "2.0", "method": "textDocument/didOpen",
+          "params": {"textDocument": {"uri": animation_uri, "languageId": "generals-ini",
+                                       "version": 1, "text": animation_text}}})
+    send({"jsonrpc": "2.0", "id": 90100, "method": "textDocument/completion",
+          "params": {"textDocument": {"uri": animation_uri},
+                     "position": {"line": 6, "character": len("   Animation = DemoSKL.R")}}})
+    animation_result = wait_for(lambda m: m.get("id") == 90100 and "result" in m,
+                                "animation completion")["result"]
+    animation_items = animation_result.get("items", []) if isinstance(animation_result, dict) else animation_result
+    assert sorted(item["label"] for item in animation_items) == ["DemoSKL.Idle", "DemoSKL.Run"]
+    for item in animation_items:
+        assert item["textEdit"] == {
+            "range": {"start": {"line": 6, "character": len("   Animation = ")},
+                      "end": {"line": 6, "character": len("   Animation = DemoSKL.R")}},
+            "newText": item["label"],
+        }, item
+    print("OK: inherited-model animation completion replaces the full qualified name")
+
+    # Both semantic-token routes must recognize animation names as references.
+    legend = caps["semanticTokensProvider"]["legend"]["tokenTypes"]
+    for request_id, method in [(90101, "full"), (90102, "range")]:
+        params = {"textDocument": {"uri": animation_uri}}
+        if method == "range":
+            params["range"] = {"start": {"line": 6, "character": 0},
+                               "end": {"line": 7, "character": 0}}
+        send({"jsonrpc": "2.0", "id": request_id,
+              "method": f"textDocument/semanticTokens/{method}", "params": params})
+        result = wait_for(lambda m: m.get("id") == request_id and "result" in m,
+                          f"animation semantic tokens ({method})")["result"]["data"]
+        line, character = 0, 0
+        classified = {}
+        for i in range(0, len(result), 5):
+            delta_line, delta_start, length, token_type, _ = result[i:i + 5]
+            character = delta_start if delta_line else character + delta_start
+            line += delta_line
+            if line == 6:
+                text = animation_text.splitlines()[line][character:character + length]
+                classified[text] = legend[token_type]
+        assert classified.get("DemoSKL.R") == "variable", classified
+        assert classified.get("16") == "number", classified
+    print("OK: full and range semantic tokens classify animations as references and arguments as numbers")
 
     # 4) semantic tokens (full + range; the server must advertise range).
     assert caps["semanticTokensProvider"].get("range") is True, "range tokens not advertised"

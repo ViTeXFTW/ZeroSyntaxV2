@@ -34,6 +34,13 @@ pub struct FileAsset {
 pub struct ModelAsset {
     pub name: String,
     pub members: Vec<String>,
+    pub hierarchy: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct AnimationAsset {
+    pub name: String,
+    pub hierarchy: String,
 }
 
 /// A definition's location within a file.
@@ -138,6 +145,8 @@ pub struct WorkspaceIndex {
     model_assets: HashMap<String, Vec<(Arc<str>, ModelAsset)>>,
     /// Reverse map for removing/replacing models contributed by one asset file.
     file_models: HashMap<String, Vec<String>>,
+    animation_assets: HashMap<String, Vec<(Arc<str>, AnimationAsset)>>,
+    file_animations: HashMap<String, Vec<String>>,
     asset_names: HashMap<AssetKind, HashMap<String, Vec<(String, FileAsset)>>>,
     texture_assets: HashMap<String, Vec<(String, FileAsset)>>,
     file_assets: HashMap<String, Vec<FileAsset>>,
@@ -241,6 +250,7 @@ impl WorkspaceIndex {
         self.remove_entries(file);
         self.remove_site_entries(file);
         self.remove_model_entries(file);
+        self.set_file_animations(file, Vec::new());
         self.set_file_assets(file, Vec::new());
         self.remove_object_model_entries(file);
         self.remove_object_parent_entries(file);
@@ -273,6 +283,51 @@ impl WorkspaceIndex {
                 }
             }
         }
+    }
+
+    /// Replace animation metadata contributed by one loose or archived W3D.
+    pub fn set_file_animations(&mut self, file: &str, animations: Vec<AnimationAsset>) {
+        if let Some(names) = self.file_animations.remove(file) {
+            for name in names {
+                if let Some(entries) = self.animation_assets.get_mut(&name) {
+                    entries.retain(|(source, _)| source.as_ref() != file);
+                    if entries.is_empty() {
+                        self.animation_assets.remove(&name);
+                    }
+                }
+            }
+        }
+        let source: Arc<str> = Arc::from(file);
+        let mut names = Vec::new();
+        for animation in animations {
+            let name = animation.name.to_ascii_lowercase();
+            self.animation_assets
+                .entry(name.clone())
+                .or_default()
+                .push((source.clone(), animation));
+            names.push(name);
+        }
+        if !names.is_empty() {
+            self.file_animations.insert(file.to_string(), names);
+        }
+        // Animation metadata only drives uncached completion requests.
+    }
+
+    /// Animations compatible with the effective model's skeleton. Files may
+    /// contribute animations separately from the model and its hierarchy.
+    pub fn model_animations<'a>(&'a self, model: &str) -> impl Iterator<Item = &'a str> {
+        let hierarchy = self
+            .model_assets
+            .get(&model.to_ascii_lowercase())
+            .and_then(|entries| entries.last())
+            .and_then(|(_, model)| model.hierarchy.as_deref());
+        self.animation_assets
+            .values()
+            .filter_map(|entries| entries.last())
+            .filter(move |(_, animation)| {
+                hierarchy.is_some_and(|h| h.eq_ignore_ascii_case(&animation.hierarchy))
+            })
+            .map(|(_, animation)| animation.name.as_str())
     }
 
     /// Replace W3D model assets contributed by `file`.
@@ -865,11 +920,13 @@ fn dedup_case_insensitive(values: &mut Vec<String>) {
     values.retain(|value| seen.insert(value.to_ascii_lowercase()));
 }
 
-fn normalized_model_assets(models: &[ModelAsset]) -> Vec<(String, Vec<String>)> {
+fn normalized_model_assets(models: &[ModelAsset]) -> Vec<(String, Vec<String>, Option<String>)> {
     normalized_model_asset_refs(&models.iter().collect::<Vec<_>>())
 }
 
-fn normalized_model_asset_refs(models: &[&ModelAsset]) -> Vec<(String, Vec<String>)> {
+fn normalized_model_asset_refs(
+    models: &[&ModelAsset],
+) -> Vec<(String, Vec<String>, Option<String>)> {
     let mut out = models
         .iter()
         .map(|model| {
@@ -880,7 +937,11 @@ fn normalized_model_asset_refs(models: &[&ModelAsset]) -> Vec<(String, Vec<Strin
                 .collect::<Vec<_>>();
             members.sort();
             members.dedup();
-            (model.name.to_ascii_lowercase(), members)
+            (
+                model.name.to_ascii_lowercase(),
+                members,
+                model.hierarchy.as_ref().map(|h| h.to_ascii_lowercase()),
+            )
         })
         .collect::<Vec<_>>();
     out.sort();
@@ -1368,6 +1429,7 @@ mod tests {
         idx.set_file_models(
             "base.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "Tank".into(),
                 members: Vec::new(),
             }],
@@ -1375,6 +1437,7 @@ mod tests {
         idx.set_file_models(
             "mod.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "TANK".into(),
                 members: Vec::new(),
             }],
@@ -1446,9 +1509,62 @@ mod tests {
     }
 
     #[test]
+    fn animation_lookup_tracks_model_overrides_and_file_removal() {
+        let mut idx = WorkspaceIndex::new();
+        idx.set_file_models(
+            "base.w3d",
+            vec![ModelAsset {
+                name: "Soldier".into(),
+                members: vec![],
+                hierarchy: Some("HumanSKL".into()),
+            }],
+        );
+        let animation = AnimationAsset {
+            name: "HumanSKL.Run".into(),
+            hierarchy: "HumanSKL".into(),
+        };
+        idx.set_file_animations("run.w3d", vec![animation.clone()]);
+        idx.set_file_animations("patch-run.w3d", vec![animation]);
+        assert_eq!(
+            idx.model_animations("soldier").collect::<Vec<_>>(),
+            ["HumanSKL.Run"]
+        );
+        idx.remove_file("patch-run.w3d");
+        assert_eq!(
+            idx.model_animations("soldier").collect::<Vec<_>>(),
+            ["HumanSKL.Run"]
+        );
+        idx.set_file_models(
+            "patch.w3d",
+            vec![ModelAsset {
+                name: "Soldier".into(),
+                members: vec![],
+                hierarchy: Some("OtherSKL".into()),
+            }],
+        );
+        assert_eq!(idx.model_animations("Soldier").count(), 0);
+        idx.remove_file("patch.w3d");
+        assert_eq!(idx.model_animations("Soldier").count(), 1);
+        idx.set_file_animations(
+            "run.w3d",
+            vec![AnimationAsset {
+                name: "HumanSKL.Idle".into(),
+                hierarchy: "HumanSKL".into(),
+            }],
+        );
+        assert_eq!(
+            idx.model_animations("Soldier").collect::<Vec<_>>(),
+            ["HumanSKL.Idle"]
+        );
+        idx.remove_file("run.w3d");
+        assert_eq!(idx.model_animations("Soldier").count(), 0);
+    }
+
+    #[test]
     fn model_asset_member_changes_bump_generation() {
         let mut idx = WorkspaceIndex::new();
         let original = vec![ModelAsset {
+            hierarchy: None,
             name: "Tank".into(),
             members: vec!["Tire01".into()],
         }];
@@ -1460,6 +1576,7 @@ mod tests {
         idx.set_file_models(
             "model.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "Tank".into(),
                 members: vec!["Tire02".into()],
             }],
@@ -1473,6 +1590,7 @@ mod tests {
         idx.insert_file_models_prepared(
             "base.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "Tank".into(),
                 members: vec!["Tire01".into()],
             }],
@@ -1480,6 +1598,7 @@ mod tests {
         idx.insert_file_models_prepared(
             "patch.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "TANK".into(),
                 members: vec!["Cargo01".into()],
             }],
@@ -1508,6 +1627,7 @@ mod tests {
         idx.set_file_models(
             "base.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "Tank".into(),
                 members: vec!["Tire01".into()],
             }],
@@ -1515,6 +1635,7 @@ mod tests {
         idx.set_file_models(
             "patch.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "TANK".into(),
                 members: vec!["Cargo01".into()],
             }],
@@ -1531,6 +1652,7 @@ mod tests {
         idx.set_file_models(
             "base.w3d",
             vec![ModelAsset {
+                hierarchy: None,
                 name: "Tank".into(),
                 members: vec!["Tire01".into()],
             }],

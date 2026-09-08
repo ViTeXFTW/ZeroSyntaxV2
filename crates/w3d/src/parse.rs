@@ -114,6 +114,25 @@ pub(crate) fn parse(bytes: &[u8]) -> Result<W3dFile, W3dError> {
             MESH => file.meshes.push(parse_mesh(chunk.data)?),
             HIERARCHY => file.hierarchies.push(parse_hierarchy(chunk.data)?),
             HLOD => file.hlods.push(parse_hlod(chunk.data)?),
+            // Raw, compressed (time-coded/adaptive delta), and morph headers
+            // share Version, Name[16], HierarchyName[16]. See w3d_file.h.
+            0x0200 | 0x0280 | 0x02c0 => {
+                for header in chunks(chunk.data, 1)? {
+                    if header.kind == chunk.kind + 1 {
+                        if header.data.len() < 44 {
+                            return Err(W3dError::new("truncated animation header"));
+                        }
+                        let name = fixed_name(&header.data[4..20]);
+                        let hierarchy = fixed_name(&header.data[20..36]);
+                        if !name.is_empty() && !hierarchy.is_empty() {
+                            file.animations.push(crate::AnimationCatalogEntry {
+                                name: format!("{hierarchy}.{name}"),
+                                hierarchy,
+                            });
+                        }
+                    }
+                }
+            }
             _ => {}
         }
         collect_catalog_names(

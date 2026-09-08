@@ -12,8 +12,9 @@ use postcard::ser_flavors::Flavor;
 use serde::{Deserialize, Serialize};
 use tower_lsp::lsp_types::Url;
 use zerosyntax_analysis::index::{
-    definitions_in, module_tags_in, object_models_in, object_parents_in, references_in, AssetKind,
-    Definition, FileAsset, ModelAsset, ModuleTagDefinition, ReferenceSite,
+    definitions_in, module_tags_in, object_models_in, object_parents_in, references_in,
+    AnimationAsset, AssetKind, Definition, FileAsset, ModelAsset, ModuleTagDefinition,
+    ReferenceSite,
 };
 use zerosyntax_analysis::Analyzer;
 use zerosyntax_w3d::W3dFile;
@@ -30,6 +31,7 @@ pub(crate) type ScanEntry = (
     Vec<ModelAsset>,
     Vec<FileAsset>,
     Option<Arc<str>>,
+    Vec<AnimationAsset>,
 );
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -148,6 +150,7 @@ struct CachedEntry {
     object_models: Vec<(String, Vec<String>)>,
     object_parents: Vec<(String, String)>,
     models: Vec<ModelAsset>,
+    animations: Vec<AnimationAsset>,
     assets: Vec<FileAsset>,
     text: Option<String>,
 }
@@ -162,6 +165,7 @@ impl From<&ScanEntry> for CachedEntry {
             object_models: entry.4.clone(),
             object_parents: entry.5.clone(),
             models: entry.6.clone(),
+            animations: entry.9.clone(),
             assets: entry.7.clone(),
             text: entry.8.as_deref().map(str::to_owned),
         }
@@ -180,6 +184,7 @@ impl From<CachedEntry> for ScanEntry {
             entry.models,
             entry.assets,
             entry.text.map(Arc::from),
+            entry.animations,
         )
     }
 }
@@ -368,21 +373,39 @@ fn raw_asset(path: &str, uri: &str) -> Option<FileAsset> {
     })
 }
 
+#[cfg(test)]
 pub(crate) fn parse_w3d_models(bytes: &[u8], fallback_name: &str) -> Vec<ModelAsset> {
+    parse_w3d_assets(bytes, fallback_name).0
+}
+
+fn parse_w3d_assets(bytes: &[u8], fallback_name: &str) -> (Vec<ModelAsset>, Vec<AnimationAsset>) {
     match W3dFile::parse(bytes) {
-        Ok(file) => file
-            .catalog(fallback_name)
-            .into_iter()
-            .map(|model| ModelAsset {
-                name: model.name,
-                members: model.members,
-            })
-            .collect(),
-        Err(_) if !fallback_name.trim().is_empty() => vec![ModelAsset {
-            name: fallback_name.trim().to_string(),
-            members: Vec::new(),
-        }],
-        Err(_) => Vec::new(),
+        Ok(file) => (
+            file.catalog(fallback_name)
+                .into_iter()
+                .map(|model| ModelAsset {
+                    name: model.name,
+                    members: model.members,
+                    hierarchy: model.hierarchy,
+                })
+                .collect(),
+            file.animations()
+                .iter()
+                .map(|animation| AnimationAsset {
+                    name: animation.name.clone(),
+                    hierarchy: animation.hierarchy.clone(),
+                })
+                .collect(),
+        ),
+        Err(_) if !fallback_name.trim().is_empty() => (
+            vec![ModelAsset {
+                name: fallback_name.trim().to_string(),
+                members: Vec::new(),
+                hierarchy: None,
+            }],
+            Vec::new(),
+        ),
+        Err(_) => (Vec::new(), Vec::new()),
     }
 }
 
@@ -411,13 +434,14 @@ pub(crate) fn scan_big(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry
                 Vec::new(),
                 Vec::new(),
                 Some(Arc::from(text)),
+                Vec::new(),
             ));
         } else if extension.eq_ignore_ascii_case("w3d") {
             let bytes = read_big_entry_bytes(path, &entry).with_context(|| {
                 format!("failed to read {} from {}", entry.name, path.display())
             })?;
-            let models = parse_w3d_models(&bytes, &file_stem_str(&entry.name));
-            if !models.is_empty() {
+            let (models, animations) = parse_w3d_assets(&bytes, &file_stem_str(&entry.name));
+            if !models.is_empty() || !animations.is_empty() {
                 out.push((
                     file,
                     Vec::new(),
@@ -428,6 +452,7 @@ pub(crate) fn scan_big(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry
                     models,
                     Vec::new(),
                     None,
+                    animations,
                 ));
             }
         } else if let Some(asset) = raw_asset(&entry.name, &file) {
@@ -463,6 +488,7 @@ pub(crate) fn scan_big(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry
             Vec::new(),
             assets,
             None,
+            Vec::new(),
         ));
     }
     Ok(out)
@@ -797,6 +823,7 @@ fn scan_path(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry>> {
             Vec::new(),
             Vec::new(),
             None,
+            Vec::new(),
         )])
     } else if ext.eq_ignore_ascii_case("w3d") {
         let bytes =
@@ -805,8 +832,8 @@ fn scan_path(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry>> {
             .file_stem()
             .and_then(|s| s.to_str())
             .unwrap_or_default();
-        let models = parse_w3d_models(&bytes, stem);
-        Ok((!models.is_empty())
+        let (models, animations) = parse_w3d_assets(&bytes, stem);
+        Ok((!models.is_empty() || !animations.is_empty())
             .then_some((
                 uri.to_string(),
                 Vec::new(),
@@ -817,6 +844,7 @@ fn scan_path(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry>> {
                 models,
                 Vec::new(),
                 None,
+                animations,
             ))
             .into_iter()
             .collect())
@@ -831,6 +859,7 @@ fn scan_path(analyzer: &Analyzer, path: &Path) -> Result<Vec<ScanEntry>> {
             Vec::new(),
             vec![asset],
             None,
+            Vec::new(),
         )])
     } else {
         Ok(Vec::new())
@@ -1020,11 +1049,23 @@ mod tests {
         let cache_dir = root.join("cache");
         let workspace = root.join("workspace");
         std::fs::create_dir_all(&workspace).unwrap();
+        let mut animation = vec![0; 44];
+        animation[4..7].copy_from_slice(b"Run");
+        animation[20..28].copy_from_slice(b"HumanSKL");
+        let animation = [
+            0x200u32.to_le_bytes().to_vec(),
+            52u32.to_le_bytes().to_vec(),
+            0x201u32.to_le_bytes().to_vec(),
+            44u32.to_le_bytes().to_vec(),
+            animation,
+        ]
+        .concat();
         write_big(
             &workspace.join("Data.big"),
             &[
                 ("Data\\INI\\Object.ini", b"Object BigObject\nEnd\n"),
                 ("Data\\INI\\Weapon.ini", b"Weapon BigWeapon\nEnd\n"),
+                ("Art\\W3D\\Run.w3d", &animation),
             ],
         );
         let workspace_roots = vec![workspace];
@@ -1037,7 +1078,17 @@ mod tests {
             &mut |_| {},
         );
         assert_eq!(cold.stats.cache_misses, 1);
-        assert_eq!(cold.entries.len(), 2);
+        assert_eq!(cold.entries.len(), 3);
+        let animation_entry = cold
+            .entries
+            .iter()
+            .find(|(_, entry)| !entry.9.is_empty())
+            .unwrap();
+        assert!(
+            animation_entry.1 .6.is_empty(),
+            "animation-only file is not a model"
+        );
+        assert_eq!(animation_entry.1 .9[0].name, "HumanSKL.Run");
 
         let warm = scan_with_cache_in(
             &Analyzer::embedded(),

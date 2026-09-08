@@ -27,6 +27,7 @@ pub enum CompletionKind {
     Value,
     Reference,
     W3dModel,
+    W3dAnimation,
 }
 
 /// A single completion candidate.
@@ -154,6 +155,11 @@ fn classify_position(
                 .as_ref()
                 .and_then(|scope_node| scope_schema(analyzer, scope_node).field(&key))
                 .and_then(|field| {
+                    // Animation's following tokens are optional distance and
+                    // repeat count, despite its lenient string schema type.
+                    if field.parse_fn == "parseAnimation" {
+                        return None;
+                    }
                     field
                         .value_type
                         .token_index_at_input(&input, raw_value_index)
@@ -412,6 +418,27 @@ fn field_value_completions(
     let mut base = {
         let scope = scope_schema(analyzer, scope_node);
         if let Some(f) = scope.field(key) {
+            if f.parse_fn == "parseAnimation" {
+                return if value_index == 0 {
+                    index
+                        .map(|index| {
+                            crate::model::condition_state_model(scope_node)
+                                .into_iter()
+                                .flat_map(|model| index.model_animations(&model))
+                                .map(|name| Completion {
+                                    label: name.to_string(),
+                                    kind: CompletionKind::W3dAnimation,
+                                    detail: Some("W3D animation".into()),
+                                    documentation: None,
+                                    insert: None,
+                                })
+                                .collect()
+                        })
+                        .unwrap_or_default()
+                } else {
+                    Vec::new()
+                };
+            }
             if let Some(asset_completions) = model_asset_completions(
                 analyzer,
                 scope_node,
@@ -1290,6 +1317,7 @@ mod tests {
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec!["Cargo01".into(), "Tire01".into()],
             }],
@@ -1328,6 +1356,7 @@ End
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec!["Turret01".into()],
             }],
@@ -1362,6 +1391,7 @@ End
         index.set_file_models(
             "a10.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "A10".into(),
                 members: vec!["WeaponA01".into()],
             }],
@@ -1387,6 +1417,7 @@ End
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec![],
             }],
@@ -1408,6 +1439,7 @@ End
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec!["Muzzle01".into(), "Muzzle02".into()],
             }],

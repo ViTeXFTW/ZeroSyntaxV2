@@ -2756,6 +2756,7 @@ End
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec!["Tire01".into(), "Cargo01".into(), "Muzzle01".into()],
             }],
@@ -2827,6 +2828,7 @@ End
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec!["Turret01".into()],
             }],
@@ -2869,6 +2871,7 @@ End
         index.set_file_models(
             "models/A10.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "A10".into(),
                 members: vec!["WeaponA01".into(), "Missile01".into()],
             }],
@@ -2922,6 +2925,7 @@ End
         index.set_file_models(
             "models/Good.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "Good".into(),
                 members: vec![],
             }],
@@ -2941,6 +2945,7 @@ End
         index.set_file_models(
             "a.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "A".into(),
                 members: vec!["Bone01".into()],
             }],
@@ -2948,6 +2953,7 @@ End
         index.set_file_models(
             "b.w3d",
             vec![crate::index::ModelAsset {
+                hierarchy: None,
                 name: "B".into(),
                 members: vec![],
             }],

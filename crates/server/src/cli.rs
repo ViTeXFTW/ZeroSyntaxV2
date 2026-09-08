@@ -272,8 +272,18 @@ fn has_extension(path: &Path, extension: &str) -> bool {
 }
 
 fn apply_entries(index: &mut WorkspaceIndex, entries: Vec<ScanEntry>) {
-    for (file, definitions, references, tags, object_models, object_parents, models, assets, _) in
-        entries
+    for (
+        file,
+        definitions,
+        references,
+        tags,
+        object_models,
+        object_parents,
+        models,
+        assets,
+        _,
+        animations,
+    ) in entries
     {
         index.set_file(&file, definitions);
         index.set_file_refs(&file, references);
@@ -281,6 +291,7 @@ fn apply_entries(index: &mut WorkspaceIndex, entries: Vec<ScanEntry>) {
         index.set_file_object_models(&file, object_models);
         index.set_file_object_parents(&file, object_parents);
         index.set_file_models(&file, models);
+        index.set_file_animations(&file, animations);
         index.set_file_assets(&file, assets);
     }
 }

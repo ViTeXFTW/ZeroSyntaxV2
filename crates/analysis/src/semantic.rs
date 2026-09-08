@@ -189,12 +189,11 @@ impl<'a> Sem<'a> {
                 },
             );
         }
-        let ty = field
-            .key()
-            .and_then(|k| scope.field(k.text()))
-            .map(|f| f.value_type.clone());
+        let schema_field = field.key().and_then(|k| scope.field(k.text()));
+        let is_animation = schema_field.is_some_and(|f| f.parse_fn == "parseAnimation");
+        let ty = schema_field.map(|f| &f.value_type);
         let value_tokens = field.value_tokens();
-        let active_ty = ty.as_ref().and_then(|ty| {
+        let active_ty = ty.and_then(|ty| {
             ty.variant_for_first_token(value_tokens.first().map(|t| t.text().trim_matches('"')))
         });
         let input = value_tokens
@@ -204,6 +203,20 @@ impl<'a> Sem<'a> {
         for (i, tok) in value_tokens.iter().enumerate() {
             if is_remove_module {
                 self.set(tok, SemKind::Reference);
+                continue;
+            }
+            // parseAnimation accepts a name, optional distance, and optional
+            // repeat count. Its lenient string schema must not hide those
+            // meanings, including when the animation name is quoted.
+            if is_animation && i < 3 {
+                self.set(
+                    tok,
+                    if i == 0 {
+                        SemKind::Reference
+                    } else {
+                        SemKind::Number
+                    },
+                );
                 continue;
             }
             if matches!(active_ty, Some(ValueType::RandomVariable { .. })) {
@@ -299,6 +312,37 @@ mod tests {
                 (t.kind, s.to_string())
             })
             .collect()
+    }
+
+    #[test]
+    fn animations_are_references_with_numeric_arguments() {
+        let src = "Object Soldier\n Draw = W3DModelDraw Tag\n  DefaultConditionState\n   Model = SoldierSkin\n   Animation = HumanSKL.Run 16\n   IdleAnimation = \"HumanSKL.Idle\" 0 9\n  End\n  ConditionState = MOVING\n   Animation = HumanSKL.Walk\n  End\n  TransitionState = TRANS_A TRANS_B\n   Animation = HumanSKL.Stop\n  End\n End\n DisplayName = PlainString\nEnd\n";
+        let tokens = toks(src);
+        for name in [
+            "HumanSKL.Run",
+            "\"HumanSKL.Idle\"",
+            "HumanSKL.Walk",
+            "HumanSKL.Stop",
+        ] {
+            assert!(
+                tokens.contains(&(SemKind::Reference, name.into())),
+                "expected animation reference for {name}: {tokens:?}"
+            );
+        }
+        for number in ["16", "0", "9"] {
+            assert!(
+                tokens.contains(&(SemKind::Number, number.into())),
+                "expected numeric animation argument {number}"
+            );
+        }
+        assert!(tokens.contains(&(SemKind::StringLit, "PlainString".into())));
+        let analyzer = Analyzer::embedded();
+        let parse = analyzer.parse(src);
+        let offset = src.find("HumanSKL.Walk").unwrap() as u32;
+        assert_eq!(
+            semantic_tokens_range(&analyzer, &parse, Span::new(offset, offset + 1)),
+            semantic_tokens(&analyzer, &parse)
+        );
     }
 
     #[test]

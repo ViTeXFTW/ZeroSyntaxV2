@@ -212,6 +212,18 @@ ZeroSyntax supports incremental document sync, diagnostics, completion, hover,
 go to definition, references, rename, semantic tokens, document and workspace
 symbols, folding ranges, quick fixes, and optional document formatting.
 
+`Animation` and `IdleAnimation` offer qualified W3D animation names matching the
+`Model` in the current condition state. States without a `Model` inherit it from
+the preceding `DefaultConditionState` in the same draw module; `TransitionState`
+works the same way. Matching uses the model's skeleton and animation headers,
+including animations stored in separate loose W3D files or BIG archives under
+workspace roots or `baseIniRoots`. An explicit `Model = None` offers no animations.
+Suggestions apply only to the first value, preserving optional distance and repeat
+arguments. Semantic highlighting treats animation names (including quoted names)
+as references and distance/repeat arguments as numbers. Header layouts and state inheritance follow the
+[engine source](https://github.com/electronicarts/CnC_Generals_Zero_Hour/blob/main/GeneralsMD/Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp)
+and [W3D format definitions](https://github.com/electronicarts/CnC_Generals_Zero_Hour/blob/main/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/w3d_file.h).
+
 W3D model completion items support `completionItem/resolve`. Clients that render
 Markdown completion documentation can show a lazy textured thumbnail
 for the active `Model =` suggestion. The initial completion list contains no

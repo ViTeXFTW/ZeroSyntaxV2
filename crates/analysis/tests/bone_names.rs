@@ -7,6 +7,7 @@ fn bone_completions_deduplicate_aliases_and_preserve_prefix_insertion() {
     index.set_file_models(
         "good.w3d",
         vec![ModelAsset {
+            hierarchy: None,
             name: "Good".into(),
             members: vec![
                 "Good.Fire01".into(),

@@ -18,6 +18,14 @@ const MAX_CHUNK_DEPTH: usize = 16;
 pub struct ModelCatalogEntry {
     pub name: String,
     pub members: Vec<String>,
+    pub hierarchy: Option<String>,
+}
+
+/// Engine animation name (`Hierarchy.Animation`) and its target skeleton.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AnimationCatalogEntry {
+    pub name: String,
+    pub hierarchy: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -44,6 +52,7 @@ pub struct W3dFile {
     pub(crate) hlods: Vec<parse::Hlod>,
     extra_names: Vec<String>,
     extra_members: Vec<String>,
+    pub(crate) animations: Vec<AnimationCatalogEntry>,
 }
 
 impl W3dFile {
@@ -52,6 +61,15 @@ impl W3dFile {
     }
 
     pub fn catalog(&self, fallback_name: &str) -> Vec<ModelCatalogEntry> {
+        // Animation-only files are not renderable models.
+        if !self.animations.is_empty()
+            && self.meshes.is_empty()
+            && self.hierarchies.is_empty()
+            && self.hlods.is_empty()
+            && self.extra_names.is_empty()
+        {
+            return Vec::new();
+        }
         let mut names = Vec::new();
         let mut members = self.extra_members.clone();
         push_name(&mut names, fallback_name);
@@ -83,10 +101,30 @@ impl W3dFile {
             .into_iter()
             .filter(|name| !name.is_empty())
             .map(|name| ModelCatalogEntry {
+                hierarchy: self
+                    .hlods
+                    .iter()
+                    .find(|hlod| hlod.name.eq_ignore_ascii_case(&name))
+                    .or_else(|| {
+                        (name.eq_ignore_ascii_case(fallback_name) && self.hlods.len() == 1)
+                            .then(|| &self.hlods[0])
+                    })
+                    .map(|hlod| hlod.hierarchy.clone())
+                    .or_else(|| {
+                        self.hierarchies
+                            .iter()
+                            .find(|h| h.name.eq_ignore_ascii_case(&name))
+                            .map(|h| h.name.clone())
+                    })
+                    .filter(|name| !name.is_empty()),
                 name,
                 members: members.clone(),
             })
             .collect()
+    }
+
+    pub fn animations(&self) -> &[AnimationCatalogEntry] {
+        &self.animations
     }
 
     pub fn render_thumbnail(
@@ -135,6 +173,64 @@ mod tests {
             .iter()
             .flat_map(|value| value.to_le_bytes())
             .collect()
+    }
+
+    #[test]
+    fn animation_headers_keep_qualified_names_and_stay_out_of_models() {
+        for kind in [0x200, 0x280, 0x2c0] {
+            let mut header = vec![0; if kind == 0x2c0 { 48 } else { 44 }];
+            header[4..7].copy_from_slice(b"Run");
+            header[20..28].copy_from_slice(b"HumanSKL");
+            let file = W3dFile::parse(&chunk(kind, chunk(kind + 1, header))).unwrap();
+            assert!(file.catalog("Run").is_empty());
+            assert_eq!(
+                file.animations(),
+                &[AnimationCatalogEntry {
+                    name: "HumanSKL.Run".into(),
+                    hierarchy: "HumanSKL".into(),
+                }]
+            );
+            assert!(W3dFile::parse(&chunk(kind, chunk(kind + 1, vec![0; 35]))).is_err());
+        }
+    }
+
+    #[test]
+    fn catalog_associates_each_hlod_with_its_own_skeleton() {
+        fn hlod(name: &str, hierarchy: &str) -> Vec<u8> {
+            let mut header = vec![0; 40];
+            header[8..8 + name.len()].copy_from_slice(name.as_bytes());
+            header[24..24 + hierarchy.len()].copy_from_slice(hierarchy.as_bytes());
+            chunk(0x700, chunk(0x701, header))
+        }
+        let bytes = [hlod("Soldier", "HumanSKL"), hlod("Plane", "PlaneSKL")].concat();
+        let file = W3dFile::parse(&bytes).unwrap();
+        let catalog = file.catalog("Bundle");
+        assert_eq!(
+            catalog
+                .iter()
+                .find(|m| m.name == "Soldier")
+                .unwrap()
+                .hierarchy
+                .as_deref(),
+            Some("HumanSKL")
+        );
+        assert_eq!(
+            catalog
+                .iter()
+                .find(|m| m.name == "Plane")
+                .unwrap()
+                .hierarchy
+                .as_deref(),
+            Some("PlaneSKL")
+        );
+        assert_eq!(
+            catalog
+                .iter()
+                .find(|m| m.name == "Bundle")
+                .unwrap()
+                .hierarchy,
+            None
+        );
     }
 
     #[test]
