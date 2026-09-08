@@ -284,7 +284,7 @@ fn is_override_layer(file: &str) -> bool {
 fn object_name_completions(index: Option<&WorkspaceIndex>) -> Vec<Completion> {
     index
         .into_iter()
-        .flat_map(|idx| idx.names(RefKind::Object))
+        .flat_map(|idx| idx.override_target_names(RefKind::Object))
         .map(|name| Completion {
             label: name.to_string(),
             kind: CompletionKind::Reference,
@@ -1074,6 +1074,11 @@ mod tests {
             "data/INI/Object.ini",
             crate::index::definitions_in(&a, &base, "data/INI/Object.ini"),
         );
+        let map_only = a.parse("Object MapOnlyObject\nEnd\n");
+        index.set_file(
+            "maps/other/map.ini",
+            crate::index::definitions_in(&a, &map_only, "maps/other/map.ini"),
+        );
 
         // `NewMapObject` intentionally does not exist in the index: an Object
         // header in map.ini may define a new template as well as override one.
@@ -1088,6 +1093,10 @@ mod tests {
         );
         assert!(
             out.iter().any(|item| item.label == "AmericaVehicleHumvee"),
+            "{out:?}"
+        );
+        assert!(
+            !out.iter().any(|item| item.label == "MapOnlyObject"),
             "{out:?}"
         );
 

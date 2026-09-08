@@ -782,6 +782,23 @@ impl WorkspaceIndex {
             .flat_map(|n| n.values().map(|e| e.display.as_str()))
     }
 
+    /// Names that have at least one definition outside a map/solo override
+    /// layer. These are valid targets for a map Object override; names that
+    /// exist solely in an override layer are new map-local templates instead.
+    pub fn override_target_names(&self, kind: RefKind) -> impl Iterator<Item = &str> {
+        self.by_kind
+            .get(&kind)
+            .into_iter()
+            .flat_map(|names| names.values())
+            .filter(|entry| {
+                entry
+                    .locations
+                    .iter()
+                    .any(|loc| !is_override_layer(&loc.file))
+            })
+            .map(|entry| entry.display.as_str())
+    }
+
     /// All reference sites for `name` of `kind` (case-insensitive).
     pub fn reference_sites(&self, kind: RefKind, name: &str) -> &[Location] {
         self.sites
