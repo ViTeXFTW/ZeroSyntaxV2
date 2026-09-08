@@ -482,6 +482,23 @@ def main() -> int:
     assert targets[0]["range"]["start"]["line"] == 1, targets
     print("OK: RemoveModule tag resolves to its module definition")
 
+    # A RemoveModule completion identifies the module that owns each tag.
+    send({"jsonrpc": "2.0", "id": 69, "method": "textDocument/completion",
+          "params": {"textDocument": {"uri": module_map_uri},
+                     "position": {"line": 3, "character": len("  RemoveModule ")}}})
+    module_completion = wait_for(
+        lambda m: m.get("id") == 69 and "result" in m,
+        "RemoveModule completion result",
+    )
+    module_items = module_completion["result"]
+    if isinstance(module_items, dict):
+        module_items = module_items.get("items", [])
+    target_item = next(item for item in module_items if item["label"] == "ModuleTag_Target")
+    assert target_item["documentation"]["kind"] == "markdown", target_item
+    assert target_item["documentation"]["value"].startswith("```ini\n"), target_item
+    assert "Behavior = DestroyDie ModuleTag_Target" in target_item["documentation"]["value"]
+    print("OK: RemoveModule completion previews its defining module")
+
     send({"jsonrpc": "2.0", "id": 70, "method": "textDocument/references",
           "params": {"textDocument": {"uri": module_map_uri},
                      "position": {"line": 3, "character": 16},

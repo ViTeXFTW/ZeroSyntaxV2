@@ -64,6 +64,10 @@ pub struct ModuleTagDefinition {
     pub object: String,
     pub name: String,
     pub span: Span,
+    /// The defining module header, shown when this tag is offered as a
+    /// RemoveModule completion.
+    #[serde(default)]
+    pub snippet: String,
     #[serde(default)]
     pub is_reference: bool,
 }
@@ -86,6 +90,14 @@ struct NameEntry {
 struct ModuleTagEntry {
     name: String,
     location: Location,
+    snippet: String,
+}
+
+/// A module tag that is valid at a `RemoveModule`/`ReplaceModule` site.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct EffectiveModuleTag<'a> {
+    pub name: &'a str,
+    pub snippet: &'a str,
 }
 
 /// Workspace-wide symbol table, grouped by reference kind then name.
@@ -574,6 +586,7 @@ impl WorkspaceIndex {
                     .push(ModuleTagEntry {
                         name: tag.name,
                         location,
+                        snippet: tag.snippet,
                     });
             }
         }
@@ -648,7 +661,7 @@ impl WorkspaceIndex {
         name: &str,
         file: Option<&str>,
         before: Option<u32>,
-    ) -> Vec<&'a str> {
+    ) -> Vec<EffectiveModuleTag<'a>> {
         let mut out = self
             .object_tags
             .get(&name.to_ascii_lowercase())
@@ -659,13 +672,25 @@ impl WorkspaceIndex {
                     tag.location.file == file && tag.location.span.start >= before
                 })
             })
-            .map(|tag| tag.name.as_str())
+            .map(|tag| EffectiveModuleTag {
+                name: tag.name.as_str(),
+                snippet: tag.snippet.as_str(),
+            })
             .collect::<Vec<_>>();
         let is_new_override = file.is_some_and(|file| self.is_new_override_object(name, file));
         if is_new_override {
-            out.extend(self.module_tags_for_object("DefaultThingTemplate"));
+            out.extend(
+                self.object_tags
+                    .get("defaultthingtemplate")
+                    .into_iter()
+                    .flatten()
+                    .map(|tag| EffectiveModuleTag {
+                        name: tag.name.as_str(),
+                        snippet: tag.snippet.as_str(),
+                    }),
+            );
             let mut seen = std::collections::HashSet::new();
-            out.retain(|tag| seen.insert(tag.to_ascii_lowercase()));
+            out.retain(|tag| seen.insert(tag.name.to_ascii_lowercase()));
         }
         out
     }
@@ -1149,11 +1174,19 @@ pub fn module_tags_in(_analyzer: &Analyzer, parse: &Parse) -> Vec<ModuleTagDefin
         let Some(name) = block.name() else { continue };
         let name_lower = name.text().to_ascii_lowercase();
         for child in node.children().filter(|n| n.kind() == SyntaxKind::MODULE) {
-            if let Some(tag) = Module(child).tag() {
+            let module = Module(child);
+            if let Some(tag) = module.tag() {
+                let snippet = match (module.slot(), module.module_name()) {
+                    (Some(slot), Some(module_name)) => {
+                        format!("{} = {} {}", slot.text(), module_name.text(), tag.text())
+                    }
+                    _ => tag.text().to_string(),
+                };
                 out.push(ModuleTagDefinition {
                     object: name_lower.clone(),
                     name: tag.text().to_string(),
                     span: tag.text_range().into(),
+                    snippet,
                     is_reference: false,
                 });
             }
@@ -1170,6 +1203,7 @@ pub fn module_tags_in(_analyzer: &Analyzer, parse: &Parse) -> Vec<ModuleTagDefin
                     object: name_lower.clone(),
                     name: tag.text().trim_matches('"').to_string(),
                     span: tag.text_range().into(),
+                    snippet: String::new(),
                     is_reference: true,
                 });
             }
@@ -1242,6 +1276,7 @@ mod tests {
             object: "tank".into(),
             name: "ModuleTag_Physics".into(),
             span: Span::new(0, 17),
+            snippet: "Behavior = PhysicsBehavior ModuleTag_Physics".into(),
             is_reference: false,
         }];
         let g0 = idx.generation();

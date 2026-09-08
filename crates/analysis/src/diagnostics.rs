@@ -1069,7 +1069,7 @@ impl<'a> Ctx<'a> {
                 Some(tag.text_range().start().into()),
             )
             .iter()
-            .any(|known| known.eq_ignore_ascii_case(tag_name))
+            .any(|known| known.name.eq_ignore_ascii_case(tag_name))
         {
             self.error(
                 &tag,

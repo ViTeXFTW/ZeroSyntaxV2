@@ -17,7 +17,7 @@ const STORE_FILE: &str = "index-v1.sqlite3";
 const STORE_VERSION: i64 = 1;
 /// Bump when `CachedEntry` serialization or any extractor feeding it changes.
 /// SQL layout changes instead bump `STORE_VERSION` and the store filename.
-const PRODUCER_ABI: &[u8] = b"zerosyntax-physical-input-v2";
+const PRODUCER_ABI: &[u8] = b"zerosyntax-physical-input-v3";
 const BUSY_TIMEOUT: Duration = Duration::from_secs(2);
 const TOUCH_INTERVAL_SECS: i64 = 24 * 60 * 60;
 const MAX_AGE_SECS: i64 = 30 * 24 * 60 * 60;
