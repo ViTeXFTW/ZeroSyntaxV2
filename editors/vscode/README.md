@@ -26,8 +26,17 @@ Open the folder containing your project rather than a single file. ZeroSyntax
 indexes the workspace so definitions, references, rename, and completion work
 across its INI files.
 
-When editing `map.ini` or `solo.ini`, configure **ZeroSyntax v2: Base Ini Roots**
-with any game or mod folders and `.big` archives that load before the map. This
+When you first open an INI file, click **Select Game Folder** in the setup
+notification and browse to your Zero Hour installation folder. You can also run
+**ZeroSyntax: Select Game Folder** from the Command Palette at any time to add
+a game or mod folder. The folder is added to `zerosyntax.baseIniRoots` without
+replacing existing entries, and indexing starts automatically without a restart.
+It is saved in user settings for reuse across projects, unless the workspace
+already overrides this setting; in that case, the workspace setting is updated.
+
+Use **ZeroSyntax v2: Base Ini Roots** in Settings to manage additional roots,
+reorder or remove entries, or add individual `.big` archives that load before
+`map.ini` or `solo.ini`. This
 prevents false unresolved-reference warnings and enables W3D model, bone,
 WAV/MP3 audio, and TGA/DDS texture checks. Configure every loaded game/mod root;
 asset warnings activate per kind once any matching asset is indexed. DDS-only

@@ -27,6 +27,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "zerosyntax.selectGameDirectory",
+        "title": "ZeroSyntax: Select Game Folder"
+      },
+      {
         "command": "zerosyntax.clearIndexCache",
         "title": "ZeroSyntax: Clear Index Cache"
       },
@@ -102,7 +106,7 @@
           "items": {
             "type": "string"
           },
-          "markdownDescription": "Directories or `.big` archives containing base game/mod INI files and game assets. INI definitions are treated as already loaded before `map.ini`/`solo.ini`; W3D, WAV/MP3, and TGA/DDS assets power completions and diagnostics. Configure all loaded roots to avoid partial-index warnings. Changing this reindexes in the background."
+          "markdownDescription": "Directories or `.big` archives containing base game/mod INI files and game assets. Use **ZeroSyntax: Select Game Folder** to browse for your installation or mod folder. INI definitions are treated as already loaded before `map.ini`/`solo.ini`; W3D, WAV/MP3, and TGA/DDS assets power completions and diagnostics. Configure all loaded roots to avoid partial-index warnings. Changing this reindexes in the background."
         },
         "zerosyntax.progress.mode": {
           "type": "string",
