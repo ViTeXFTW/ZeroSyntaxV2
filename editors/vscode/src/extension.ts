@@ -84,6 +84,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   context.subscriptions.push(
+    vscode.commands.registerCommand("zerosyntax.selectGameDirectory", selectGameDirectory),
     vscode.commands.registerCommand("zerosyntax.openIndexCacheLocation", async () => {
       const cachePath = await client?.sendRequest<string>("zerosyntax/indexCachePath");
       if (!cachePath) {
@@ -191,7 +192,11 @@ function resolveServerPath(context: vscode.ExtensionContext): string | undefined
 }
 
 async function maybeShowBaseIniRootsHint(document: vscode.TextDocument) {
-  if (baseIniRootsHintShown || !isMapLayerDocument(document)) {
+  if (
+    baseIniRootsHintShown ||
+    document.uri.scheme !== "file" ||
+    document.languageId !== "generals-ini"
+  ) {
     return;
   }
 
@@ -201,15 +206,61 @@ async function maybeShowBaseIniRootsHint(document: vscode.TextDocument) {
   }
 
   baseIniRootsHintShown = true;
-  const configure = "Configure base INI roots";
-  const choice = await vscode.window.showWarningMessage(
-    "ZeroSyntax v2: map/solo.ini diagnostics are limited until base game or mod INIs are configured.",
-    configure
+  const selectDirectory = "Select Game Folder";
+  const openSettings = "Open Settings";
+  const choice = await vscode.window.showInformationMessage(
+    "ZeroSyntax v2: select your Zero Hour installation folder to enable game asset completions, model previews, and base game reference checks.",
+    selectDirectory,
+    openSettings
   );
-  if (choice === configure) {
+  if (choice === selectDirectory) {
+    await vscode.commands.executeCommand("zerosyntax.selectGameDirectory");
+  } else if (choice === openSettings) {
     await vscode.commands.executeCommand(
       "workbench.action.openSettings",
       "zerosyntax.baseIniRoots"
+    );
+  }
+}
+
+async function selectGameDirectory() {
+  try {
+    const selected = await vscode.window.showOpenDialog({
+      title: "Select your Zero Hour installation or mod folder",
+      canSelectFiles: false,
+      canSelectFolders: true,
+      canSelectMany: false,
+      openLabel: "Use Game Folder",
+    });
+    if (!selected?.[0]) {
+      return;
+    }
+
+    // Match the configuration sent to the server. Read it after the dialog so
+    // edits made while the picker is open are preserved.
+    const configuration = vscode.workspace.getConfiguration("zerosyntax");
+    const roots = configuration.get<string[]>("baseIniRoots", []);
+    const directory = selected[0].fsPath;
+    const normalize = (root: string) => {
+      const normalized = path.normalize(root).replace(/[\\/]+$/, "");
+      return process.platform === "win32" ? normalized.toLowerCase() : normalized;
+    };
+    if (roots.some((root) => normalize(root) === normalize(directory))) {
+      void vscode.window.showInformationMessage("ZeroSyntax v2: this game folder is already configured.");
+      return;
+    }
+
+    const inspected = configuration.inspect<string[]>("baseIniRoots");
+    const target = inspected?.workspaceValue !== undefined
+      ? vscode.ConfigurationTarget.Workspace
+      : vscode.ConfigurationTarget.Global;
+    await configuration.update("baseIniRoots", [...roots, directory], target);
+    void vscode.window.showInformationMessage(
+      "ZeroSyntax v2: game folder added. Game data will be indexed in the background."
+    );
+  } catch (error) {
+    void vscode.window.showErrorMessage(
+      `ZeroSyntax v2: could not configure the game folder. ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }
@@ -228,14 +279,6 @@ function setting<T>(key: string, fallback: T): T {
     return current.get<T>(key, fallback);
   }
   return vscode.workspace.getConfiguration("zerosyntax").get<T>(key, fallback);
-}
-
-function isMapLayerDocument(document: vscode.TextDocument): boolean {
-  if (document.uri.scheme !== "file" || document.languageId !== "generals-ini") {
-    return false;
-  }
-  const name = path.basename(document.uri.fsPath).toLowerCase();
-  return name === "map.ini" || name === "solo.ini";
 }
 
 class BigIniDocumentProvider implements vscode.TextDocumentContentProvider {
