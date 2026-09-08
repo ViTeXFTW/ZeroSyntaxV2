@@ -1,0 +1,90 @@
+no_errors = true
+
+[[model_assets]]
+name = "Good"
+members = ["Fire01", "Fire02", "Good.Fire01", "Good.Fire02", "Fire1", "Solo"]
+
+[[complete]]
+at = "$1"
+includes = ["Fire01", "Fire02", "Fire1", "Solo"]
+excludes = ["Fire", "Good.Fire01", "Good.Fire"]
+
+[[complete]]
+at = "$2"
+includes = ["Fire", "Fire01", "Fire02", "Solo"]
+excludes = ["Good.Fire", "Good.Fire01"]
+
+[[complete]]
+at = "$3"
+includes = ["Fire01", "Fire02"]
+excludes = ["Fire", "Good.Fire01"]
+
+[[complete]]
+at = "$4"
+includes = ["Fire"]
+excludes = ["Fire01", "Fire02", "Solo", "Good.Fire"]
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Fire"
+nth = 1
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Bone:Fire"
+
+[[complete]]
+at = "$5"
+includes = ["Fire01", "Fire02"]
+excludes = ["Fire", "Good.Fire01"]
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Fire01"
+absent = true
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Fire"
+nth = 2
+absent = true
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Fire02"
+absent = true
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "fire02"
+absent = true
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Bone:Fire01"
+absent = true
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Fire"
+nth = 3
+absent = true
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Bone:Solo"
+
+[[diag]]
+severity = "warning"
+code = "unknown-model-member"
+on = "Fire"
+nth = 4

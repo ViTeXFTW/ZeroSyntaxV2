@@ -152,6 +152,7 @@ pub(crate) fn is_model_member_type(ty: &ValueType) -> bool {
 }
 
 pub(crate) fn model_member_ini_name(member: &str) -> &str {
+    let member = member.rsplit('.').next().unwrap_or(member);
     let trimmed = member.trim_end_matches(|c: char| c.is_ascii_digit());
     if trimmed.is_empty() {
         member
@@ -160,8 +161,66 @@ pub(crate) fn model_member_ini_name(member: &str) -> &str {
     }
 }
 
-pub(crate) fn model_member_matches(member: &str, value: &str) -> bool {
-    member.eq_ignore_ascii_case(value) || model_member_ini_name(member).eq_ignore_ascii_case(value)
+/// Resolve a contextual mode once, using the entire field (including tokens
+/// after the cursor). Colon-separated values may occupy one or two tokens.
+pub(crate) fn model_member_mode(
+    mode: Option<zerosyntax_schema::ModelMemberMode>,
+    field: Option<&AstField>,
+) -> Option<zerosyntax_schema::ModelMemberMode> {
+    use zerosyntax_schema::ModelMemberMode;
+    if mode != Some(ModelMemberMode::RandomBone) {
+        return mode;
+    }
+    let tokens = field.map(AstField::value_tokens).unwrap_or_default();
+    for (i, token) in tokens.iter().enumerate() {
+        let Some((key, value)) = token.text().split_once(':') else {
+            continue;
+        };
+        if !key.eq_ignore_ascii_case("RandomBone") {
+            continue;
+        }
+        let value = if value.is_empty() {
+            tokens.get(i + 1).map(|t| t.text()).unwrap_or("")
+        } else {
+            value
+        };
+        if value.eq_ignore_ascii_case("Yes") {
+            return Some(ModelMemberMode::Indexed);
+        }
+        if value.eq_ignore_ascii_case("No") {
+            return Some(ModelMemberMode::Exact);
+        }
+    }
+    // While the controlling value is incomplete, offer both legal forms.
+    Some(ModelMemberMode::ExactOrIndexed)
+}
+
+pub(crate) fn model_member_names(
+    member: &str,
+    mode: Option<zerosyntax_schema::ModelMemberMode>,
+) -> Vec<&str> {
+    use zerosyntax_schema::ModelMemberMode;
+    let short = member.rsplit('.').next().unwrap_or(member);
+    let base = short.strip_suffix("01").filter(|base| !base.is_empty());
+    match mode {
+        None => vec![model_member_ini_name(short)],
+        Some(ModelMemberMode::Exact) => vec![short],
+        Some(ModelMemberMode::Indexed) => base.into_iter().collect(),
+        Some(ModelMemberMode::ExactOrIndexed | ModelMemberMode::RandomBone) => {
+            std::iter::once(short).chain(base).collect()
+        }
+    }
+}
+
+pub(crate) fn model_member_matches(
+    member: &str,
+    value: &str,
+    mode: Option<zerosyntax_schema::ModelMemberMode>,
+) -> bool {
+    (mode.is_none() && member.eq_ignore_ascii_case(value))
+        || model_member_names(member, mode)
+            .iter()
+            .any(|name| name.eq_ignore_ascii_case(value))
 }
 
 /// Models referenced by W3D-model-typed fields visible from `scope_node`:

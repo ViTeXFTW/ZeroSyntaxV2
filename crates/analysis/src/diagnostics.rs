@@ -22,8 +22,8 @@ use zerosyntax_syntax::{Parse, SyntaxKind, SyntaxNode, SyntaxToken};
 
 use crate::index::{AssetKind, ModelMemberStrictness};
 use crate::model::{
-    is_model_asset_type, is_model_member_type, model_member_matches, models_for_source,
-    module_fits_slot, scope_schema, ScopeSchema,
+    is_model_asset_type, is_model_member_type, model_member_matches, model_member_mode,
+    models_for_source, module_fits_slot, scope_schema, ScopeSchema,
 };
 use crate::{Analyzer, Span, WorkspaceIndex};
 
@@ -1093,43 +1093,22 @@ impl<'a> Ctx<'a> {
             return;
         }
         let tokens = field.value_tokens();
-        match &schema_field.value_type {
-            ValueType::W3dModelList => {
-                for tok in &tokens {
-                    self.validate_model_asset_token(
-                        &schema_field.value_type,
-                        tok,
-                        scope_node,
-                        schema_field.model_source.as_ref(),
-                    );
-                }
-            }
-            ValueType::TokenList { tokens: specs } => {
-                let mut i = 0;
-                for spec in specs {
-                    let Some(tok) = tokens.get(i) else { break };
-                    let (ty, tok, consumed) = split_prefixed_token(&tokens[i..], spec)
-                        .map(|(ty, tok)| (ty, tok, 2))
-                        .unwrap_or((spec, tok, 1));
-                    self.validate_model_asset_token(
-                        ty,
-                        tok,
-                        scope_node,
-                        schema_field.model_source.as_ref(),
-                    );
-                    i += consumed;
-                }
-            }
-            ty => {
-                if let Some(tok) = tokens.first() {
-                    let (ty, tok) = split_prefixed_token(&tokens, ty).unwrap_or((ty, tok));
-                    self.validate_model_asset_token(
-                        ty,
-                        tok,
-                        scope_node,
-                        schema_field.model_source.as_ref(),
-                    );
-                }
+        let input = tokens.iter().map(|t| unquote(t.text())).collect::<Vec<_>>();
+        let mode = model_member_mode(schema_field.model_member_mode, Some(field));
+        for (i, tok) in tokens.iter().enumerate() {
+            let ty = if matches!(schema_field.value_type, ValueType::W3dModelList) {
+                Some(&schema_field.value_type)
+            } else {
+                schema_field.value_type.token_type_at_input(&input, i)
+            };
+            if let Some(ty) = ty {
+                self.validate_model_asset_token(
+                    ty,
+                    tok,
+                    scope_node,
+                    schema_field.model_source.as_ref(),
+                    mode,
+                );
             }
         }
     }
@@ -1197,6 +1176,7 @@ impl<'a> Ctx<'a> {
         tok: &SyntaxToken,
         scope_node: &SyntaxNode,
         source: Option<&zerosyntax_schema::ModelSource>,
+        mode: Option<zerosyntax_schema::ModelMemberMode>,
     ) {
         let Some(index) = self.index else { return };
         let raw = unquote(tok.text());
@@ -1244,7 +1224,7 @@ impl<'a> Ctx<'a> {
             checked_any_model = true;
             if index
                 .model_members(&model)
-                .any(|member| model_member_matches(member, value))
+                .any(|member| model_member_matches(member, value, mode))
             {
                 if index.model_member_strictness() == ModelMemberStrictness::Compatible {
                     return;
@@ -2560,6 +2540,7 @@ End
             parse_fn: String::new(),
             doc: None,
             model_source: None,
+            model_member_mode: None,
         };
         for parser in eager {
             field.parse_fn = parser.into();

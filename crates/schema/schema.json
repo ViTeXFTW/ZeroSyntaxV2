@@ -18562,6 +18562,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18579,6 +18580,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18596,6 +18598,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18613,6 +18616,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18630,6 +18634,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18697,6 +18702,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -18827,6 +18833,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18844,6 +18851,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18861,6 +18869,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18878,6 +18887,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18895,6 +18905,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -18962,6 +18973,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -19095,6 +19107,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -19112,6 +19125,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -19129,6 +19143,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -19146,6 +19161,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -19163,6 +19179,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -19230,6 +19247,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -21267,6 +21285,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21305,6 +21324,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21343,6 +21363,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21381,6 +21402,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21419,6 +21441,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21457,6 +21480,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21495,6 +21519,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21533,6 +21558,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21571,6 +21597,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21609,6 +21636,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21647,6 +21675,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21685,6 +21714,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21723,6 +21753,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21761,6 +21792,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21799,6 +21831,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21837,6 +21870,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21875,6 +21909,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21913,6 +21948,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21951,6 +21987,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -21989,6 +22026,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22027,6 +22065,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22065,6 +22104,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22103,6 +22143,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22141,6 +22182,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22179,6 +22221,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22217,6 +22260,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22255,6 +22299,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22293,6 +22338,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22331,6 +22377,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22369,6 +22416,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22407,6 +22455,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22445,6 +22494,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseFXList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22483,6 +22533,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22521,6 +22572,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22559,6 +22611,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22597,6 +22650,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22635,6 +22689,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22673,6 +22728,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22711,6 +22767,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22749,6 +22806,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22787,6 +22845,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22825,6 +22884,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22863,6 +22923,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22901,6 +22962,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22939,6 +23001,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -22977,6 +23040,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23015,6 +23079,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23053,6 +23118,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23091,6 +23157,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23129,6 +23196,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23167,6 +23235,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23205,6 +23274,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23243,6 +23313,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23281,6 +23352,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23319,6 +23391,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23357,6 +23430,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23395,6 +23469,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23433,6 +23508,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23471,6 +23547,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23509,6 +23586,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23547,6 +23625,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23585,6 +23664,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23623,6 +23703,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23661,6 +23742,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseObjectCreationList",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23699,6 +23781,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23737,6 +23820,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23775,6 +23859,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23813,6 +23898,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23851,6 +23937,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23889,6 +23976,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23927,6 +24015,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -23965,6 +24054,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24003,6 +24093,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24041,6 +24132,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24079,6 +24171,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24117,6 +24210,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24155,6 +24249,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24193,6 +24288,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24231,6 +24327,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24269,6 +24366,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24307,6 +24405,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24345,6 +24444,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24383,6 +24483,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24421,6 +24522,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24459,6 +24561,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24497,6 +24600,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24535,6 +24639,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24573,6 +24678,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24611,6 +24717,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24649,6 +24756,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24687,6 +24795,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24725,6 +24834,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24763,6 +24873,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24801,6 +24912,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24839,6 +24951,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         },
         {
@@ -24877,6 +24990,7 @@
             ]
           },
           "parse_fn": "BoneFXUpdateModuleData::parseParticleSystem",
+          "model_member_mode": "exact",
           "doc": null
         }
       ],
@@ -46239,7 +46353,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46296,6 +46410,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46310,7 +46425,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46367,6 +46482,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46381,7 +46497,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46438,6 +46554,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46452,7 +46569,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46509,6 +46626,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46523,7 +46641,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46580,6 +46698,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46594,7 +46713,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46651,6 +46770,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46665,7 +46785,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46722,6 +46842,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46736,7 +46857,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46793,6 +46914,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46807,7 +46929,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46864,6 +46986,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46878,7 +47001,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -46935,6 +47058,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -46949,7 +47073,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47006,6 +47130,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47020,7 +47145,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47077,6 +47202,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47091,7 +47217,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47148,6 +47274,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47162,7 +47289,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47219,6 +47346,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47233,7 +47361,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47290,6 +47418,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47304,7 +47433,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47361,6 +47490,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47375,7 +47505,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47432,6 +47562,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47446,7 +47577,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47503,6 +47634,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47517,7 +47649,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47574,6 +47706,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47588,7 +47721,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47645,6 +47778,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47659,7 +47793,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47716,6 +47850,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47730,7 +47865,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47787,6 +47922,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47801,7 +47937,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47858,6 +47994,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47872,7 +48009,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -47929,6 +48066,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -47943,7 +48081,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48000,6 +48138,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48014,7 +48153,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48071,6 +48210,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48085,7 +48225,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48142,6 +48282,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48156,7 +48297,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48213,6 +48354,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48227,7 +48369,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48284,6 +48426,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48298,7 +48441,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48355,6 +48498,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48369,7 +48513,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48426,6 +48570,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48440,7 +48585,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48497,6 +48642,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48511,7 +48657,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48568,6 +48714,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48582,7 +48729,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48639,6 +48786,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48653,7 +48801,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48710,6 +48858,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48724,7 +48873,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48781,6 +48930,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseFXList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48795,7 +48945,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48852,6 +49002,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48866,7 +49017,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48923,6 +49074,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -48937,7 +49089,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -48994,6 +49146,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49008,7 +49161,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49065,6 +49218,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49079,7 +49233,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49136,6 +49290,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49150,7 +49305,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49207,6 +49362,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49221,7 +49377,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49278,6 +49434,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49292,7 +49449,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49349,6 +49506,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49363,7 +49521,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49420,6 +49578,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49434,7 +49593,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49491,6 +49650,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49505,7 +49665,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49562,6 +49722,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49576,7 +49737,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49633,6 +49794,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49647,7 +49809,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49704,6 +49866,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49718,7 +49881,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49775,6 +49938,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49789,7 +49953,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49846,6 +50010,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49860,7 +50025,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49917,6 +50082,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -49931,7 +50097,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -49988,6 +50154,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50002,7 +50169,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50059,6 +50226,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50073,7 +50241,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50130,6 +50298,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50144,7 +50313,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50201,6 +50370,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50215,7 +50385,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50272,6 +50442,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50286,7 +50457,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50343,6 +50514,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50357,7 +50529,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50414,6 +50586,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50428,7 +50601,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50485,6 +50658,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50499,7 +50673,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50556,6 +50730,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50570,7 +50745,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50627,6 +50802,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50641,7 +50817,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50698,6 +50874,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50712,7 +50889,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50769,6 +50946,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50783,7 +50961,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50840,6 +51018,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50854,7 +51033,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50911,6 +51090,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50925,7 +51105,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -50982,6 +51162,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -50996,7 +51177,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51053,6 +51234,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51067,7 +51249,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51124,6 +51306,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51138,7 +51321,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51195,6 +51378,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51209,7 +51393,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51266,6 +51450,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51280,7 +51465,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51337,6 +51522,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseObjectCreationList",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51351,7 +51537,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51408,6 +51594,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51422,7 +51609,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51479,6 +51666,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51493,7 +51681,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51550,6 +51738,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51564,7 +51753,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51621,6 +51810,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51635,7 +51825,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51692,6 +51882,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51706,7 +51897,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51763,6 +51954,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51777,7 +51969,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51834,6 +52026,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51848,7 +52041,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51905,6 +52098,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51919,7 +52113,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -51976,6 +52170,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -51990,7 +52185,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52047,6 +52242,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52061,7 +52257,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52118,6 +52314,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52132,7 +52329,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52189,6 +52386,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52203,7 +52401,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52260,6 +52458,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52274,7 +52473,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52331,6 +52530,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52345,7 +52545,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52402,6 +52602,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52416,7 +52617,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52473,6 +52674,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52487,7 +52689,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52544,6 +52746,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52558,7 +52761,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52615,6 +52818,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52629,7 +52833,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52686,6 +52890,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52700,7 +52905,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52757,6 +52962,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52771,7 +52977,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52828,6 +53034,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52842,7 +53049,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52899,6 +53106,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52913,7 +53121,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -52970,6 +53178,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -52984,7 +53193,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53041,6 +53250,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53055,7 +53265,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53112,6 +53322,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53126,7 +53337,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53183,6 +53394,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53197,7 +53409,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53254,6 +53466,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53268,7 +53481,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53325,6 +53538,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53339,7 +53553,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53396,6 +53610,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53410,7 +53625,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53467,6 +53682,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53481,7 +53697,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53538,6 +53754,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53552,7 +53769,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53609,6 +53826,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53623,7 +53841,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53680,6 +53898,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53694,7 +53913,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53751,6 +53970,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53765,7 +53985,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53822,6 +54042,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         },
         {
@@ -53836,7 +54057,7 @@
                     "kind": "prefixed",
                     "prefix": "Bone",
                     "value_type": {
-                      "kind": "ascii_string"
+                      "kind": "w3d_model_member"
                     }
                   },
                   {
@@ -53893,6 +54114,7 @@
             ]
           },
           "parse_fn": "TransitionDamageFXModuleData::parseParticleSystem",
+          "model_member_mode": "random_bone",
           "doc": null
         }
       ],
@@ -55507,6 +55729,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55524,6 +55747,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55541,6 +55765,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55558,6 +55783,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55575,6 +55801,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55642,6 +55869,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -55772,6 +56000,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55789,6 +56018,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55806,6 +56036,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55823,6 +56054,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55840,6 +56072,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -55907,6 +56140,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -56040,6 +56274,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56057,6 +56292,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56074,6 +56310,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56091,6 +56328,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56108,6 +56346,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56175,6 +56414,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -56562,6 +56802,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56579,6 +56820,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56596,6 +56838,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56613,6 +56856,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56630,6 +56874,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56697,6 +56942,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -56827,6 +57073,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56844,6 +57091,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56861,6 +57109,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56878,6 +57127,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56895,6 +57145,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -56962,6 +57213,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -57095,6 +57347,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57112,6 +57365,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57129,6 +57383,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57146,6 +57401,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57163,6 +57419,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57230,6 +57487,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -57537,6 +57795,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57554,6 +57813,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57571,6 +57831,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57588,6 +57849,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57605,6 +57867,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57672,6 +57935,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -57802,6 +58066,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57819,6 +58084,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57836,6 +58102,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57853,6 +58120,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57870,6 +58138,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -57937,6 +58206,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -58070,6 +58340,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58087,6 +58358,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58104,6 +58376,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58121,6 +58394,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58138,6 +58412,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58205,6 +58480,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -58633,6 +58909,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58650,6 +58927,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58667,6 +58945,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58684,6 +58963,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58701,6 +58981,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58768,6 +59049,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -58898,6 +59180,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58915,6 +59198,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58932,6 +59216,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58949,6 +59234,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -58966,6 +59252,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59033,6 +59320,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -59166,6 +59454,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59183,6 +59472,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59200,6 +59490,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59217,6 +59508,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59234,6 +59526,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59301,6 +59594,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -59729,6 +60023,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59746,6 +60041,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59763,6 +60059,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59780,6 +60077,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59797,6 +60095,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -59864,6 +60163,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -59994,6 +60294,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60011,6 +60312,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60028,6 +60330,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60045,6 +60348,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60062,6 +60366,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60129,6 +60434,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -60262,6 +60568,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60279,6 +60586,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60296,6 +60604,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60313,6 +60622,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60330,6 +60640,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60397,6 +60708,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -60748,6 +61060,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60765,6 +61078,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60782,6 +61096,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60799,6 +61114,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60816,6 +61132,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -60883,6 +61200,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -61013,6 +61331,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61030,6 +61349,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61047,6 +61367,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61064,6 +61385,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61081,6 +61403,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61148,6 +61471,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -61281,6 +61605,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61298,6 +61623,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61315,6 +61641,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61332,6 +61659,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61349,6 +61677,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61416,6 +61745,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -61689,6 +62019,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61706,6 +62037,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61723,6 +62055,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61740,6 +62073,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61757,6 +62091,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61824,6 +62159,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -61954,6 +62290,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61971,6 +62308,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -61988,6 +62326,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62005,6 +62344,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62022,6 +62362,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62089,6 +62430,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -62222,6 +62564,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62239,6 +62582,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62256,6 +62600,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62273,6 +62618,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62290,6 +62636,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62357,6 +62704,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -62664,6 +63012,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62681,6 +63030,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62698,6 +63048,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62715,6 +63066,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62732,6 +63084,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62799,6 +63152,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -62929,6 +63283,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62946,6 +63301,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62963,6 +63319,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62980,6 +63337,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -62997,6 +63355,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63064,6 +63423,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -63197,6 +63557,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63214,6 +63575,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63231,6 +63593,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63248,6 +63611,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63265,6 +63629,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63332,6 +63697,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -63746,6 +64112,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63763,6 +64130,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63780,6 +64148,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63797,6 +64166,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63814,6 +64184,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -63881,6 +64252,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -64011,6 +64383,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64028,6 +64401,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64045,6 +64419,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64062,6 +64437,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64079,6 +64455,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64146,6 +64523,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -64279,6 +64657,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64296,6 +64675,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64313,6 +64693,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64330,6 +64711,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64347,6 +64729,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -64414,6 +64797,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -65007,6 +65391,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65024,6 +65409,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65041,6 +65427,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65058,6 +65445,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65075,6 +65463,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65142,6 +65531,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -65272,6 +65662,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65289,6 +65680,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65306,6 +65698,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65323,6 +65716,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65340,6 +65734,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65407,6 +65802,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
@@ -65540,6 +65936,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65557,6 +65954,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65574,6 +65972,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65591,6 +65990,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65608,6 +66008,7 @@
                 ]
               },
               "parse_fn": "parseWeaponBoneName",
+              "model_member_mode": "exact_or_indexed",
               "doc": null
             },
             {
@@ -65675,6 +66076,7 @@
                 ]
               },
               "parse_fn": "parseParticleSysBone",
+              "model_member_mode": "exact",
               "doc": null
             },
             {
