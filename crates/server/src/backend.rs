@@ -14,7 +14,6 @@ use std::time::{Duration, Instant};
 
 use base64::Engine;
 use dashmap::DashMap;
-use percent_encoding::percent_decode_str;
 use ropey::Rope;
 use serde::Deserialize;
 use tower_lsp::lsp_types::*;
@@ -39,6 +38,7 @@ use crate::scan::{
 };
 #[cfg(test)]
 use crate::scan::{parse_w3d_models, scan_big, scan_roots};
+use crate::uri::canonical_uri;
 
 const CLEAR_INDEX_CACHE_COMMAND: &str = "zerosyntax.clearIndexCache";
 const REBUILD_INDEX_CACHE_COMMAND: &str = "zerosyntax.rebuildIndexCache";
@@ -457,40 +457,6 @@ fn load_schema_or_embedded(path: &str) -> (Analyzer, Option<String>) {
 #[derive(Deserialize)]
 pub struct VirtualFileParams {
     uri: String,
-}
-
-/// Normalise a client-supplied URI to the form [`Url::from_file_path`] produces.
-/// On Windows, VS Code sends `file:///c%3A/…` (percent-encoded colon, lowercase
-/// drive letter) while `from_file_path` produces `file:///C:/…`. The mismatch
-/// makes the same file land in the `WorkspaceIndex` under two different keys,
-/// so every definition appears duplicated. Round-tripping through the file-path
-/// canonicalises both percent-encoding and drive-letter casing. Non-`file:`
-/// schemes other than `big:` are returned unchanged.
-fn canonical_uri(uri: Url) -> Url {
-    if uri.scheme() == "file" {
-        if let Ok(path) = uri.to_file_path() {
-            if let Ok(canonical) = Url::from_file_path(path) {
-                return canonical;
-            }
-        }
-    } else if uri.scheme() == "big" {
-        let Ok(mut path) = percent_decode_str(uri.path())
-            .decode_utf8()
-            .map(|path| path.into_owned())
-        else {
-            return uri;
-        };
-        if path.as_bytes().get(1).is_some_and(u8::is_ascii_lowercase)
-            && path.as_bytes().get(2) == Some(&b':')
-        {
-            let drive = char::from(path.as_bytes()[1].to_ascii_uppercase()).to_string();
-            path.replace_range(1..2, &drive);
-        }
-        let mut canonical = Url::parse("big:///").expect("static BIG URI is valid");
-        canonical.set_path(&path);
-        return canonical;
-    }
-    uri
 }
 
 fn is_map_layer_file(file: &str) -> bool {

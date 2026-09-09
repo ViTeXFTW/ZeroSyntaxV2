@@ -1241,6 +1241,9 @@ def main() -> int:
     except Exception:
         proc2.kill()
 
+    from e2e_big_cache import check_big_cache
+    check_big_cache(exe, frame, reader)
+
     print("\nALL E2E CHECKS PASSED")
     return 0
 

@@ -19,6 +19,7 @@ use zerosyntax_analysis::Analyzer;
 use zerosyntax_w3d::W3dFile;
 
 use crate::cache::{self, Fingerprint, InputCache};
+use crate::uri::canonical_uri;
 
 pub(crate) type ScanEntry = (
     String,
@@ -339,7 +340,7 @@ fn big_uri(path: &Path, entry: &str) -> String {
     let archive = path.to_string_lossy().replace('\\', "/");
     let mut uri = Url::parse("big:///").expect("static BIG URI is valid");
     uri.set_path(&format!("{archive}!/{entry}"));
-    uri.to_string()
+    canonical_uri(uri).to_string()
 }
 
 fn file_stem_str(path: &str) -> String {
@@ -1012,6 +1013,17 @@ mod tests {
 
         let payload = serialize_bounded(&value, 256).unwrap();
         assert_eq!(postcard::from_bytes::<Vec<u8>>(&payload).unwrap(), value);
+    }
+
+    #[test]
+    fn big_uri_normalizes_configured_drive_letter() {
+        assert_eq!(
+            big_uri(
+                Path::new("c:/Game Folder/Base #.big"),
+                "Data/INI/Object.ini"
+            ),
+            "big:///C:/Game%20Folder/Base%20%23.big!/Data/INI/Object.ini"
+        );
     }
 
     #[test]
