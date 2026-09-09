@@ -33,12 +33,14 @@ use zerosyntax_syntax::{Edit, Parse, Strategy};
 
 use crate::convert::{self, PositionEnc};
 use crate::progress::ProgressReporter;
+#[cfg(test)]
+use crate::scan::parse_w3d_models;
 use crate::scan::{
     clear_index_cache, index_cache_path, load_sibling_str_keys, read_asset_uri, read_lossy,
     scan_with_cache, ScanOutcome, ScanProgress, ScanStats,
 };
 #[cfg(test)]
-use crate::scan::{parse_w3d_models, scan_big, scan_roots};
+use crate::scan::{scan_big, scan_roots};
 
 const CLEAR_INDEX_CACHE_COMMAND: &str = "zerosyntax.clearIndexCache";
 const REBUILD_INDEX_CACHE_COMMAND: &str = "zerosyntax.rebuildIndexCache";
@@ -1243,26 +1245,28 @@ impl Backend {
 
         let base_ini_count = scanned
             .iter()
-            .filter(|(is_base, (_, _, _, _, _, _, models, assets, _))| {
-                *is_base && models.is_empty() && assets.is_empty()
-            })
+            .filter(
+                |(is_base, (_, _, _, _, _, _, models, assets, _, animations))| {
+                    *is_base && models.is_empty() && assets.is_empty() && animations.is_empty()
+                },
+            )
             .count();
         self.base_indexed_count
             .store(base_ini_count, Ordering::Relaxed);
         self.scan_finished.store(true, Ordering::Relaxed);
         let ini_total = scanned
             .iter()
-            .filter(|(_, (_, _, _, _, _, _, models, assets, _))| {
-                models.is_empty() && assets.is_empty()
+            .filter(|(_, (_, _, _, _, _, _, models, assets, _, animations))| {
+                models.is_empty() && assets.is_empty() && animations.is_empty()
             })
             .count();
         let model_total: usize = scanned
             .iter()
-            .map(|(_, (_, _, _, _, _, _, models, _, _))| models.len())
+            .map(|(_, (_, _, _, _, _, _, models, _, _, _))| models.len())
             .sum();
         let (audio_total, texture_total) = scanned
             .iter()
-            .flat_map(|(_, (_, _, _, _, _, _, _, assets, _))| assets)
+            .flat_map(|(_, (_, _, _, _, _, _, _, assets, _, _))| assets)
             .fold((0, 0), |(audio, texture), asset| match asset.kind {
                 zerosyntax_analysis::index::AssetKind::Audio => (audio + 1, texture),
                 zerosyntax_analysis::index::AssetKind::Texture => (audio, texture + 1),
@@ -1280,8 +1284,21 @@ impl Backend {
         let mut replacement = WorkspaceIndex::new();
         replacement.set_model_member_strictness(model_member_strictness);
         self.virtual_files.clear();
-        for (_, (uri, defs, refs, tags, object_models, object_parents, models, assets, text)) in
-            scanned
+        for (
+            _,
+            (
+                uri,
+                defs,
+                refs,
+                tags,
+                object_models,
+                object_parents,
+                models,
+                assets,
+                text,
+                animations,
+            ),
+        ) in scanned
         {
             if let Some(text) = text {
                 self.virtual_files.insert(uri.clone(), text);
@@ -1293,6 +1310,7 @@ impl Backend {
                 replacement.set_file_object_models(&uri, object_models);
                 replacement.set_file_object_parents(&uri, object_parents);
                 replacement.insert_file_models_prepared(&uri, models);
+                replacement.set_file_animations(&uri, animations);
                 replacement.set_file_assets(&uri, assets);
             }
         }
@@ -1942,7 +1960,17 @@ impl LanguageServer for Backend {
             Some(uri.as_str()),
         )
         .into_iter()
-        .map(|c| convert::to_lsp_completion(c, snippets))
+        .map(|c| {
+            let animation = c.kind == completion::CompletionKind::W3dAnimation;
+            let mut item = convert::to_lsp_completion(c, snippets);
+            if animation {
+                item.text_edit = Some(CompletionTextEdit::Edit(TextEdit {
+                    range: convert::animation_completion_range(&rope, offset, self.enc()),
+                    new_text: item.label.clone(),
+                }));
+            }
+            item
+        })
         .collect();
         Ok(Some(CompletionResponse::Array(items)))
     }
@@ -3004,6 +3032,68 @@ mod tests {
     }
 
     #[test]
+    fn w3d_scan_completes_animations_for_condition_model() {
+        fn chunk(kind: u32, payload: Vec<u8>) -> Vec<u8> {
+            [
+                kind.to_le_bytes().to_vec(),
+                (payload.len() as u32).to_le_bytes().to_vec(),
+                payload,
+            ]
+            .concat()
+        }
+        fn header(name: &str, hierarchy: &str) -> Vec<u8> {
+            let mut bytes = vec![0; 44];
+            bytes[4..4 + name.len()].copy_from_slice(name.as_bytes());
+            bytes[20..20 + hierarchy.len()].copy_from_slice(hierarchy.as_bytes());
+            bytes
+        }
+        let dir =
+            std::env::temp_dir().join(format!("zerosyntax-animations-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let mut hlod = vec![0; 40];
+        hlod[8..15].copy_from_slice(b"Soldier");
+        hlod[24..32].copy_from_slice(b"HumanSKL");
+        std::fs::write(dir.join("Soldier.w3d"), chunk(0x700, chunk(0x701, hlod))).unwrap();
+        std::fs::write(
+            dir.join("Run.w3d"),
+            chunk(0x200, chunk(0x201, header("Run", "HumanSKL"))),
+        )
+        .unwrap();
+        std::fs::write(
+            dir.join("Idle.w3d"),
+            chunk(0x280, chunk(0x281, header("Idle", "HumanSKL"))),
+        )
+        .unwrap();
+        std::fs::write(
+            dir.join("Other.w3d"),
+            chunk(0x200, chunk(0x201, header("Fly", "PlaneSKL"))),
+        )
+        .unwrap();
+        let analyzer = Analyzer::embedded();
+        let scanned = scan_roots(&analyzer, std::slice::from_ref(&dir));
+        std::fs::remove_dir_all(&dir).unwrap();
+        let mut idx = WorkspaceIndex::new();
+        for (uri, _, _, _, _, _, models, _, _, animations) in scanned {
+            idx.set_file_models(&uri, models);
+            idx.set_file_animations(&uri, animations);
+        }
+        let src = "Object Soldier\n Draw = W3DModelDraw Tag\n  ConditionState = NONE\n   Model = Soldier\n   Animation = \n  End\n End\nEnd\n";
+        let offset = src.find("Animation = ").unwrap() + "Animation = ".len();
+        let mut labels: Vec<_> = completion::complete(
+            &analyzer,
+            &analyzer.parse(src),
+            offset as u32,
+            Some(&idx),
+            None,
+        )
+        .into_iter()
+        .map(|c| c.label)
+        .collect();
+        labels.sort();
+        assert_eq!(labels, ["HumanSKL.Idle", "HumanSKL.Run"]);
+    }
+
+    #[test]
     fn w3d_root_scan_powers_model_and_bone_completions() {
         // End-to-end over the `baseIniRoots` path: a directory containing a
         // loose .w3d file is scanned, indexed, and drives completions.
@@ -3024,13 +3114,16 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
 
         let mut idx = WorkspaceIndex::new();
-        for (uri, defs, refs, tags, object_models, object_parents, models, assets, _) in scanned {
+        for (uri, defs, refs, tags, object_models, object_parents, models, assets, _, animations) in
+            scanned
+        {
             idx.set_file(&uri, defs);
             idx.set_file_refs(&uri, refs);
             idx.set_file_tags(&uri, tags);
             idx.set_file_object_models(&uri, object_models);
             idx.set_file_object_parents(&uri, object_parents);
             idx.set_file_models(&uri, models);
+            idx.set_file_animations(&uri, animations);
             idx.set_file_assets(&uri, assets);
         }
         assert!(idx.is_model_asset("Good"), "model name from file stem");

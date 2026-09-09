@@ -297,6 +297,43 @@ pub(crate) fn models_for_source(
     }
 }
 
+/// A state inherits only the explicit default state in the same draw module.
+/// An explicit empty/None Model must not fall through to another state's model.
+pub(crate) fn condition_state_model(scope: &SyntaxNode) -> Option<String> {
+    fn declared_model(scope: &SyntaxNode) -> Option<Option<String>> {
+        scope
+            .children()
+            .filter(|n| n.kind() == SyntaxKind::FIELD)
+            .filter_map(|node| {
+                let field = AstField(node);
+                field
+                    .key()
+                    .filter(|key| key.text().eq_ignore_ascii_case("Model"))?;
+                Some(
+                    field
+                        .value_tokens()
+                        .first()
+                        .map(|value| value.text().trim_matches('"').to_string()),
+                )
+            })
+            .last()
+    }
+    let model = match declared_model(scope) {
+        Some(model) => model,
+        None => scope
+            .parent()?
+            .children()
+            .take_while(|node| node != scope)
+            .find(|node| {
+                Module(node.clone())
+                    .slot()
+                    .is_some_and(|slot| slot.text() == "DefaultConditionState")
+            })
+            .and_then(|default| declared_model(&default).flatten()),
+    };
+    model.filter(|name| !name.is_empty() && !name.eq_ignore_ascii_case("None"))
+}
+
 fn collect_models(analyzer: &Analyzer, node: &SyntaxNode, out: &mut Vec<String>) {
     let scope = scope_schema(analyzer, node);
     for child in node.children() {

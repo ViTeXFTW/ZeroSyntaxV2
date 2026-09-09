@@ -192,7 +192,9 @@ pub fn to_lsp_completion(c: Completion, snippets_supported: bool) -> CompletionI
             CompletionKind::EnumMember => CompletionItemKind::ENUM_MEMBER,
             CompletionKind::Value => CompletionItemKind::VALUE,
             CompletionKind::Reference => CompletionItemKind::REFERENCE,
-            CompletionKind::W3dModel => CompletionItemKind::REFERENCE,
+            CompletionKind::W3dModel | CompletionKind::W3dAnimation => {
+                CompletionItemKind::REFERENCE
+            }
         }),
         detail: c.detail,
         documentation,
@@ -202,6 +204,29 @@ pub fn to_lsp_completion(c: Completion, snippets_supported: bool) -> CompletionI
         command,
         ..Default::default()
     }
+}
+
+/// Replace the entire qualified animation token, even when a client treats
+/// the dot as a word boundary. Preserve surrounding quotes and numeric args.
+pub fn animation_completion_range(rope: &Rope, offset: u32, enc: PositionEnc) -> Range {
+    let cursor = rope.byte_to_char(offset as usize);
+    let mut start = cursor;
+    let mut end = cursor;
+    let separator = |c: char| c.is_whitespace() || matches!(c, '=' | '"' | ';');
+    while start > 0 && !separator(rope.char(start - 1)) {
+        start -= 1;
+    }
+    while end < rope.len_chars() && !separator(rope.char(end)) {
+        end += 1;
+    }
+    span_to_range(
+        rope,
+        Span {
+            start: rope.char_to_byte(start) as u32,
+            end: rope.char_to_byte(end) as u32,
+        },
+        enc,
+    )
 }
 
 /// Convert an analysis outline symbol to an LSP `DocumentSymbol` (recursive).
@@ -352,6 +377,29 @@ mod tests {
         out.extend(edit.data.clone().unwrap_or_default());
         out.extend(prev[start + del..].iter().copied());
         out
+    }
+
+    #[test]
+    fn animation_edit_replaces_qualified_token_and_preserves_arguments() {
+        for enc in [PositionEnc::Utf8, PositionEnc::Utf16] {
+            for (input, expected) in [
+                (
+                    "; Æ漢\n Animation = \"HumanSKL.R$un\" 0 9\n",
+                    "; Æ漢\n Animation = \"HumanSKL.Idle\" 0 9\n",
+                ),
+                (
+                    " Animation = HumanSKL.$Run 16\n",
+                    " Animation = HumanSKL.Idle 16\n",
+                ),
+                (" Animation = $\n", " Animation = HumanSKL.Idle\n"),
+            ] {
+                let offset = input.find('$').unwrap() as u32;
+                let mut rope = Rope::from_str(&input.replace('$', ""));
+                let range = animation_completion_range(&rope, offset, enc);
+                apply_change(&mut rope, Some(range), "HumanSKL.Idle", enc);
+                assert_eq!(rope.to_string(), expected);
+            }
+        }
     }
 
     #[test]

@@ -65,12 +65,16 @@ struct Spec {
     texture_assets: Vec<String>,
     #[serde(default)]
     model_assets: Vec<ModelSpec>,
+    #[serde(default)]
+    animation_assets: Vec<zerosyntax_analysis::index::AnimationAsset>,
 }
 
 #[derive(Deserialize)]
 struct ModelSpec {
     name: String,
     members: Vec<String>,
+    #[serde(default)]
+    hierarchy: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -413,11 +417,13 @@ fn specs_hold() {
             spec.model_assets
                 .iter()
                 .map(|model| zerosyntax_analysis::index::ModelAsset {
+                    hierarchy: model.hierarchy.clone(),
                     name: model.name.clone(),
                     members: model.members.clone(),
                 })
                 .collect(),
         );
+        index.set_file_animations("spec-animations", spec.animation_assets.clone());
         index.set_file_assets(
             "spec-assets",
             spec.audio_assets

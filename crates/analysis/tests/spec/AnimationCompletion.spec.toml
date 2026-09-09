@@ -1,0 +1,64 @@
+no_errors = true
+
+[[model_assets]]
+name = "SoldierSkin"
+hierarchy = "humanskl"
+members = []
+
+[[model_assets]]
+name = "DamagedSkin"
+hierarchy = "DamagedSKL"
+members = []
+
+[[animation_assets]]
+name = "HumanSKL.Run"
+hierarchy = "HumanSKL"
+
+[[animation_assets]]
+name = "HumanSKL.Idle"
+hierarchy = "HumanSKL"
+
+[[animation_assets]]
+name = "DamagedSKL.Limp"
+hierarchy = "DamagedSKL"
+
+[[complete]]
+at = "$1"
+equals = ["HumanSKL.Run", "HumanSKL.Idle"]
+
+[[complete]]
+at = "$2"
+equals = ["HumanSKL.Run", "HumanSKL.Idle"]
+
+[[complete]]
+at = "$3"
+equals = []
+
+[[complete]]
+at = "$4"
+equals = []
+
+[[complete]]
+at = "$5"
+equals = ["HumanSKL.Run", "HumanSKL.Idle"]
+
+[[complete]]
+at = "$6"
+equals = ["DamagedSKL.Limp"]
+
+[[complete]]
+at = "$7"
+equals = []
+
+[[complete]]
+at = "$8"
+equals = []
+
+[[complete]]
+at = "$9"
+equals = ["HumanSKL.Run", "HumanSKL.Idle"]
+
+# A plain ConditionState NONE is not an inheritable DefaultConditionState.
+[[complete]]
+at = "$10"
+equals = []
