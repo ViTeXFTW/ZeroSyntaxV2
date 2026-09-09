@@ -7,6 +7,7 @@ mod cli;
 mod convert;
 mod progress;
 mod scan;
+mod uri;
 
 use backend::Backend;
 use tower_lsp::{LspService, Server};
