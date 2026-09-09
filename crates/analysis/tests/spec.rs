@@ -63,6 +63,14 @@ struct Spec {
     audio_assets: Vec<String>,
     #[serde(default)]
     texture_assets: Vec<String>,
+    #[serde(default)]
+    model_assets: Vec<ModelSpec>,
+}
+
+#[derive(Deserialize)]
+struct ModelSpec {
+    name: String,
+    members: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -400,6 +408,16 @@ fn specs_hold() {
         let mut index = WorkspaceIndex::new();
         index.set_file(&name, definitions_in(&analyzer, &parse, &name));
         index.set_file_tags(&name, module_tags_in(&analyzer, &parse));
+        index.set_file_models(
+            "spec-models",
+            spec.model_assets
+                .iter()
+                .map(|model| zerosyntax_analysis::index::ModelAsset {
+                    name: model.name.clone(),
+                    members: model.members.clone(),
+                })
+                .collect(),
+        );
         index.set_file_assets(
             "spec-assets",
             spec.audio_assets

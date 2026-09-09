@@ -177,6 +177,12 @@ pub fn to_lsp_completion(c: Completion, snippets_supported: bool) -> CompletionI
             "model": c.label,
         })
     });
+    let documentation = c.documentation.map(|value| {
+        Documentation::MarkupContent(MarkupContent {
+            kind: MarkupKind::Markdown,
+            value,
+        })
+    });
     CompletionItem {
         label: c.label,
         kind: Some(match c.kind {
@@ -189,6 +195,7 @@ pub fn to_lsp_completion(c: Completion, snippets_supported: bool) -> CompletionI
             CompletionKind::W3dModel => CompletionItemKind::REFERENCE,
         }),
         detail: c.detail,
+        documentation,
         data,
         insert_text,
         insert_text_format,
@@ -354,6 +361,7 @@ mod tests {
                 label: "AVTank".into(),
                 kind: CompletionKind::W3dModel,
                 detail: Some("W3D model".into()),
+                documentation: None,
                 insert: None,
             },
             false,
@@ -363,6 +371,26 @@ mod tests {
             Some(&serde_json::json!("AVTank"))
         );
         assert!(item.documentation.is_none());
+    }
+
+    #[test]
+    fn completion_documentation_is_sent_as_markdown() {
+        let item = to_lsp_completion(
+            Completion {
+                label: "ModuleTag_Physics".into(),
+                kind: CompletionKind::Reference,
+                detail: Some("module tag".into()),
+                documentation: Some(
+                    "```ini\nBehavior = PhysicsBehavior ModuleTag_Physics\n```".into(),
+                ),
+                insert: None,
+            },
+            false,
+        );
+        assert!(matches!(
+            item.documentation,
+            Some(Documentation::MarkupContent(_))
+        ));
     }
 
     #[test]

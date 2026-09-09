@@ -6,14 +6,14 @@
 //! * after `=` -> enum/bitflag members, `Yes`/`No`, module names, or (with the
 //!   workspace index) names of the referenced definition kind.
 
-use zerosyntax_schema::{AudioExtension, ValueType};
+use zerosyntax_schema::{AudioExtension, RefKind, ValueType};
 use zerosyntax_syntax::ast::{Block, Field, Module};
 use zerosyntax_syntax::{Parse, SyntaxKind, SyntaxNode};
 
 use crate::index::AssetKind;
 use crate::model::{
-    is_model_asset_type, is_model_member_type, model_member_ini_name, models_for_source,
-    scope_schema,
+    is_model_asset_type, is_model_member_type, model_member_mode, model_member_names,
+    models_for_source, scope_schema,
 };
 use crate::{Analyzer, WorkspaceIndex};
 
@@ -35,6 +35,8 @@ pub struct Completion {
     pub label: String,
     pub kind: CompletionKind,
     pub detail: Option<String>,
+    /// Optional Markdown shown by an LSP client alongside the selected item.
+    pub documentation: Option<String>,
     /// Optional LSP snippet string. When the client supports snippets, the
     /// server uses this as `insertText` with `InsertTextFormat::SNIPPET`
     /// instead of the plain `label`. `$0` marks the final cursor position;
@@ -52,9 +54,10 @@ pub fn complete(
     file: Option<&str>,
 ) -> Vec<Completion> {
     let root = parse.syntax();
-    let ctx = classify_position(analyzer, &root, offset);
+    let ctx = classify_position(analyzer, &root, offset, file);
     match ctx {
         PosContext::TopLevel => top_level_completions(analyzer),
+        PosContext::ObjectName => object_name_completions(index),
         PosContext::FieldKey(scope_node) => field_key_completions(analyzer, &scope_node),
         PosContext::FieldValue {
             scope_node,
@@ -83,6 +86,11 @@ pub fn complete(
 
 enum PosContext {
     TopLevel,
+    /// Completing a top-level Object name in a map override layer. Existing
+    /// objects are useful override targets, but this is deliberately a
+    /// completion context rather than a Reference value: map files may also
+    /// introduce entirely new object names.
+    ObjectName,
     /// Completing a field/slot keyword inside this scope node.
     FieldKey(SyntaxNode),
     /// Completing the value of `key` inside this scope node; `value_index` is
@@ -108,7 +116,12 @@ enum PosContext {
     },
 }
 
-fn classify_position(analyzer: &Analyzer, root: &SyntaxNode, offset: u32) -> PosContext {
+fn classify_position(
+    analyzer: &Analyzer,
+    root: &SyntaxNode,
+    offset: u32,
+    file: Option<&str>,
+) -> PosContext {
     let off = rowan::TextSize::from(offset.min(root.text_range().end().into()));
     let element = root.covering_element(rowan::TextRange::empty(off));
     let node = match &element {
@@ -252,6 +265,9 @@ fn classify_position(analyzer: &Analyzer, root: &SyntaxNode, offset: u32) -> Pos
                 if offset <= u32::from(kw.text_range().end()) {
                     return PosContext::TopLevel;
                 }
+                if file.is_some_and(is_override_layer) && kw.text().eq_ignore_ascii_case("Object") {
+                    return PosContext::ObjectName;
+                }
             }
         }
         return PosContext::FieldKey(block_node);
@@ -259,6 +275,26 @@ fn classify_position(analyzer: &Analyzer, root: &SyntaxNode, offset: u32) -> Pos
 
     // Not inside anything -> file scope.
     PosContext::TopLevel
+}
+
+fn is_override_layer(file: &str) -> bool {
+    file.rsplit(['/', '\\']).next().is_some_and(|name| {
+        name.eq_ignore_ascii_case("map.ini") || name.eq_ignore_ascii_case("solo.ini")
+    })
+}
+
+fn object_name_completions(index: Option<&WorkspaceIndex>) -> Vec<Completion> {
+    index
+        .into_iter()
+        .flat_map(|idx| idx.override_target_names(RefKind::Object))
+        .map(|name| Completion {
+            label: name.to_string(),
+            kind: CompletionKind::Reference,
+            detail: Some("Object (override target)".into()),
+            documentation: None,
+            insert: None,
+        })
+        .collect()
 }
 
 fn field_key_completions(analyzer: &Analyzer, scope_node: &SyntaxNode) -> Vec<Completion> {
@@ -270,6 +306,7 @@ fn field_key_completions(analyzer: &Analyzer, scope_node: &SyntaxNode) -> Vec<Co
             label: f.name.clone(),
             kind: CompletionKind::Field,
             detail: Some(type_label(&f.value_type)),
+            documentation: None,
             insert: value_snippet(&f.value_type).map(|value| format!("{} = {value}", f.name)),
         })
         .collect();
@@ -280,6 +317,7 @@ fn field_key_completions(analyzer: &Analyzer, scope_node: &SyntaxNode) -> Vec<Co
             label: slot.keyword.clone(),
             kind: CompletionKind::Field,
             detail: Some("module slot".into()),
+            documentation: None,
             insert,
         });
     }
@@ -303,6 +341,7 @@ fn field_key_completions(analyzer: &Analyzer, scope_node: &SyntaxNode) -> Vec<Co
             label: sub.keyword.clone(),
             kind: CompletionKind::Block,
             detail: Some("sub-block".into()),
+            documentation: None,
             insert,
         });
     }
@@ -355,9 +394,11 @@ fn field_value_completions(
                     .effective_module_tags_for_object(&obj_name, file, Some(offset))
                     .into_iter()
                     .map(|tag| Completion {
-                        label: tag.to_string(),
+                        label: tag.name.to_string(),
                         kind: CompletionKind::Reference,
                         detail: Some("module tag".into()),
+                        documentation: (!tag.snippet.is_empty())
+                            .then(|| format!("```ini\n{}\n```", tag.snippet)),
                         insert: None,
                     })
                     .collect();
@@ -374,10 +415,18 @@ fn field_value_completions(
             if let Some(asset_completions) = model_asset_completions(
                 analyzer,
                 scope_node,
-                &f.value_type,
-                value_index,
+                f,
+                (value_index, current_token, first_token),
                 index,
-                f.model_source.as_ref(),
+                scope_node
+                    .children()
+                    .find(|node| {
+                        node.kind() == SyntaxKind::FIELD
+                            && u32::from(node.text_range().start()) <= offset
+                            && offset <= u32::from(node.text_range().end())
+                    })
+                    .map(Field)
+                    .as_ref(),
             ) {
                 asset_completions
             } else {
@@ -400,6 +449,7 @@ fn field_value_completions(
                 label: k.to_string(),
                 kind: CompletionKind::Value,
                 detail: Some("string key".into()),
+                documentation: None,
                 insert: None,
             }));
         }
@@ -410,16 +460,24 @@ fn field_value_completions(
 fn model_asset_completions(
     analyzer: &Analyzer,
     scope_node: &SyntaxNode,
-    ty: &ValueType,
-    value_index: usize,
+    field_schema: &zerosyntax_schema::Field,
+    position: (usize, Option<&str>, Option<&str>),
     index: Option<&WorkspaceIndex>,
-    source: Option<&zerosyntax_schema::ModelSource>,
+    field: Option<&Field>,
 ) -> Option<Vec<Completion>> {
     let index = index?;
     if !index.has_model_assets() {
         return None;
     }
-    let ty = token_value_type(ty, value_index);
+    let (value_index, current_token, first_token) = position;
+    let ty = field_schema
+        .value_type
+        .variant_for_first_token(first_token)?
+        .token_type_at(value_index)?;
+    let (ty, prefix) = match ty {
+        ValueType::Prefixed { prefix, value_type } => (value_type.as_ref(), Some(prefix)),
+        _ => (ty, None),
+    };
     if is_model_asset_type(ty) {
         return Some(
             index
@@ -428,6 +486,7 @@ fn model_asset_completions(
                     label: name.to_string(),
                     kind: CompletionKind::W3dModel,
                     detail: Some("W3D model".into()),
+                    documentation: None,
                     insert: None,
                 })
                 .collect(),
@@ -436,31 +495,50 @@ fn model_asset_completions(
     if !is_model_member_type(ty) {
         return None;
     }
+    let mode = model_member_mode(field_schema.model_member_mode, field);
     let mut seen = std::collections::HashSet::new();
-    let out = models_for_source(analyzer, scope_node, source, index)
-        .into_iter()
-        .flat_map(|model| {
-            index
-                .model_members(&model)
-                .map(|member| model_member_ini_name(member).to_string())
-                .collect::<Vec<_>>()
-        })
-        .filter(|member| seen.insert(member.to_ascii_lowercase()))
-        .map(|member| Completion {
-            label: member,
-            kind: CompletionKind::Reference,
-            detail: Some("W3D model member".into()),
-            insert: None,
-        })
-        .collect();
+    let out = models_for_source(
+        analyzer,
+        scope_node,
+        field_schema.model_source.as_ref(),
+        index,
+    )
+    .into_iter()
+    .flat_map(|model| {
+        index
+            .model_members(&model)
+            .flat_map(|member| {
+                model_member_names(member, mode)
+                    .into_iter()
+                    .map(move |name| {
+                        (
+                            name.to_string(),
+                            mode.is_some() && name != member.rsplit('.').next().unwrap_or(member),
+                        )
+                    })
+            })
+            .collect::<Vec<_>>()
+    })
+    .filter(|(member, _)| seen.insert(member.to_ascii_lowercase()))
+    .map(|(member, family)| Completion {
+        insert: prefix
+            .filter(|prefix| {
+                !current_token
+                    .and_then(|t| t.split_once(':'))
+                    .is_some_and(|(actual, _)| actual.eq_ignore_ascii_case(prefix))
+            })
+            .map(|prefix| format!("{prefix}:{member}")),
+        detail: Some(if family {
+            "W3D numbered bone family (01, 02, ...)".into()
+        } else {
+            "W3D model member".into()
+        }),
+        label: member,
+        kind: CompletionKind::Reference,
+        documentation: None,
+    })
+    .collect();
     Some(out)
-}
-
-fn token_value_type(ty: &ValueType, value_index: usize) -> &ValueType {
-    match ty {
-        ValueType::TokenList { tokens } => tokens.get(value_index).unwrap_or(ty),
-        _ => ty,
-    }
 }
 
 /// Build a single-token snippet placeholder for a value type, used when
@@ -472,7 +550,7 @@ fn type_snippet_placeholder(ty: &ValueType, n: usize) -> String {
             if prefix.eq_ignore_ascii_case("Bone")
                 && matches!(
                     value_type.as_ref(),
-                    ValueType::AsciiString | ValueType::QuotedString
+                    ValueType::AsciiString | ValueType::QuotedString | ValueType::W3dModelMember
                 )
             {
                 format!("{prefix}:${{{n}:NONE}}")
@@ -624,6 +702,7 @@ fn completions_for_type(
                             label: "<full sequence>".into(),
                             kind: CompletionKind::Value,
                             detail: Some(format!("{} tokens", tokens.len())),
+                            documentation: None,
                             insert: Some(snippet),
                         },
                     );
@@ -636,18 +715,21 @@ fn completions_for_type(
             label: "R: G: B:".into(),
             kind: CompletionKind::Value,
             detail: Some("color".into()),
+            documentation: None,
             insert: Some("R:${1:255} G:${2:255} B:${3:255}".into()),
         }],
         ValueType::Coord2D => vec![Completion {
             label: "X: Y:".into(),
             kind: CompletionKind::Value,
             detail: Some("2D coordinate".into()),
+            documentation: None,
             insert: Some("X:${1:0} Y:${2:0}".into()),
         }],
         ValueType::Coord3D => vec![Completion {
             label: "X: Y: Z:".into(),
             kind: CompletionKind::Value,
             detail: Some("3D coordinate".into()),
+            documentation: None,
             insert: Some("X:${1:0} Y:${2:0} Z:${3:0}".into()),
         }],
         ValueType::Bool => ["Yes", "No"]
@@ -656,6 +738,7 @@ fn completions_for_type(
                 label: v.to_string(),
                 kind: CompletionKind::Value,
                 detail: None,
+                documentation: None,
                 insert: None,
             })
             .collect(),
@@ -668,6 +751,7 @@ fn completions_for_type(
                         label: m.name.clone(),
                         kind: CompletionKind::EnumMember,
                         detail: Some(value_set.clone()),
+                        documentation: None,
                         insert: None,
                     })
                     .collect()
@@ -681,6 +765,7 @@ fn completions_for_type(
                             label: n.to_string(),
                             kind: CompletionKind::Reference,
                             detail: Some(format!("{ref_kind:?}")),
+                            documentation: None,
                             insert: None,
                         })
                         .collect()
@@ -692,6 +777,7 @@ fn completions_for_type(
                 label: n.to_string(),
                 kind: CompletionKind::Reference,
                 detail: Some(format!("{ref_kind:?} (engine builtin)")),
+                documentation: None,
                 insert: None,
             }));
             out
@@ -768,6 +854,7 @@ fn asset_completions(
             label,
             kind: CompletionKind::Reference,
             detail: Some(detail.to_string()),
+            documentation: None,
             insert: None,
         })
         .collect()
@@ -791,6 +878,7 @@ fn top_level_completions(analyzer: &Analyzer) -> Vec<Completion> {
                 label: b.name.clone(),
                 kind: CompletionKind::Block,
                 detail: Some("block".into()),
+                documentation: None,
                 insert,
             }
         })
@@ -818,6 +906,7 @@ fn module_name_completions(
                 label: m.name.clone(),
                 kind: CompletionKind::Module,
                 detail: Some("module".into()),
+                documentation: None,
                 insert,
             }
         })
@@ -1033,6 +1122,73 @@ mod tests {
     }
 
     #[test]
+    fn map_object_header_suggests_existing_objects_without_requiring_one() {
+        let a = Analyzer::embedded();
+        let mut index = WorkspaceIndex::new();
+        let base = a.parse("Object AmericaVehicleHumvee\nEnd\n");
+        index.set_file(
+            "data/INI/Object.ini",
+            crate::index::definitions_in(&a, &base, "data/INI/Object.ini"),
+        );
+        let map_only = a.parse("Object MapOnlyObject\nEnd\n");
+        index.set_file(
+            "maps/other/map.ini",
+            crate::index::definitions_in(&a, &map_only, "maps/other/map.ini"),
+        );
+
+        // `NewMapObject` intentionally does not exist in the index: an Object
+        // header in map.ini may define a new template as well as override one.
+        let src = "Object NewMapObject\nEnd\n";
+        let offset = "Object New".len() as u32;
+        let out = complete(
+            &a,
+            &a.parse(src),
+            offset,
+            Some(&index),
+            Some("maps/map.ini"),
+        );
+        assert!(
+            out.iter().any(|item| item.label == "AmericaVehicleHumvee"),
+            "{out:?}"
+        );
+        assert!(
+            !out.iter().any(|item| item.label == "MapOnlyObject"),
+            "{out:?}"
+        );
+
+        let blank_header = "Object \nEnd\n";
+        let blank_out = complete(
+            &a,
+            &a.parse(blank_header),
+            "Object ".len() as u32,
+            Some(&index),
+            Some("maps/map.ini"),
+        );
+        assert!(
+            blank_out
+                .iter()
+                .any(|item| item.label == "AmericaVehicleHumvee"),
+            "{blank_out:?}"
+        );
+
+        // This is a completion-only affordance; typing a new name remains
+        // valid and produces no unknown-reference diagnostic.
+        assert!(crate::diagnostics::diagnose(
+            &a,
+            &a.parse(src),
+            Some(&index),
+            Some("maps/map.ini")
+        )
+        .iter()
+        .all(|diagnostic| diagnostic.code != "unresolved-reference"));
+
+        let non_map = complete(&a, &a.parse(src), offset, Some(&index), Some("Object.ini"));
+        assert!(!non_map
+            .iter()
+            .any(|item| item.label == "AmericaVehicleHumvee"));
+    }
+
+    #[test]
     fn remove_module_completion_excludes_later_declarations() {
         let a = Analyzer::embedded();
         let src =
@@ -1043,6 +1199,25 @@ mod tests {
         let offset = "Object Tank\n  RemoveModule ".len() as u32;
         let out = complete(&a, &parse, offset, Some(&index), Some("map.ini"));
         assert!(!out.iter().any(|item| item.label == "ModuleTag_Later"));
+    }
+
+    #[test]
+    fn remove_module_completion_documents_the_defining_module() {
+        let a = Analyzer::embedded();
+        let defs =
+            a.parse("Object Tank\n  Behavior = PhysicsBehavior ModuleTag_Physics\n  End\nEnd\n");
+        let mut index = WorkspaceIndex::new();
+        index.set_file_tags("base.ini", crate::index::module_tags_in(&a, &defs));
+        let src = "Object Tank\n  RemoveModule \nEnd\n";
+        let offset = "Object Tank\n  RemoveModule ".len() as u32;
+        let item = complete(&a, &a.parse(src), offset, Some(&index), Some("map.ini"))
+            .into_iter()
+            .find(|item| item.label == "ModuleTag_Physics")
+            .expect("module tag completion");
+        assert_eq!(
+            item.documentation.as_deref(),
+            Some("```ini\nBehavior = PhysicsBehavior ModuleTag_Physics\n```")
+        );
     }
 
     #[test]

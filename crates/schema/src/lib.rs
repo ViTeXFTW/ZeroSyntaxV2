@@ -159,6 +159,22 @@ pub struct Field {
     pub doc: Option<String>,
     #[serde(default)]
     pub model_source: Option<ModelSource>,
+    /// Engine lookup semantics for the model-member token in this field.
+    /// Omitted for fields whose lookup has not yet been audited.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model_member_mode: Option<ModelMemberMode>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ModelMemberMode {
+    Exact,
+    /// Enumerates base01, base02, ... starting at 01.
+    Indexed,
+    /// Enumerates numbered bones, with an unadorned-name fallback.
+    ExactOrIndexed,
+    /// TransitionDamageFX: selected by the field's RandomBone:Yes/No value.
+    RandomBone,
 }
 
 /// Selects the Object whose W3D models own a model-member field.
@@ -529,6 +545,7 @@ mod tests {
                     parse_fn: "parseReal".into(),
                     doc: None,
                     model_source: None,
+                    model_member_mode: None,
                 }],
                 module_slots: vec![],
                 sub_blocks: vec![],
@@ -1435,7 +1452,7 @@ mod tests {
                 &ValueType::OneOf {
                     variants: vec![
                         token_list(vec![
-                            prefixed("Bone", ValueType::AsciiString),
+                            prefixed("Bone", ValueType::W3dModelMember),
                             prefixed("RandomBone", ValueType::Bool),
                             prefixed(prefix, reference(ref_kind)),
                         ]),

@@ -11,7 +11,7 @@
   "publisher": "ViTeXFTW",
   "icon": "icon/ZeroSyntaxLogo256.png",
   "engines": {
-    "vscode": "^1.84.0"
+    "vscode": "^1.136.0"
   },
   "categories": [
     "Programming Languages",
@@ -26,6 +26,10 @@
   ],
   "contributes": {
     "commands": [
+      {
+        "command": "zerosyntax.selectGameDirectory",
+        "title": "ZeroSyntax: Select Game Folder"
+      },
       {
         "command": "zerosyntax.clearIndexCache",
         "title": "ZeroSyntax: Clear Index Cache"
@@ -102,7 +106,7 @@
           "items": {
             "type": "string"
           },
-          "markdownDescription": "Directories or `.big` archives containing base game/mod INI files and game assets. INI definitions are treated as already loaded before `map.ini`/`solo.ini`; W3D, WAV/MP3, and TGA/DDS assets power completions and diagnostics. Configure all loaded roots to avoid partial-index warnings. Changing this reindexes in the background."
+          "markdownDescription": "Directories or `.big` archives containing base game/mod INI files and game assets. Use **ZeroSyntax: Select Game Folder** to browse for your installation or mod folder. INI definitions are treated as already loaded before `map.ini`/`solo.ini`; W3D, WAV/MP3, and TGA/DDS assets power completions and diagnostics. Configure all loaded roots to avoid partial-index warnings. Changing this reindexes in the background."
         },
         "zerosyntax.progress.mode": {
           "type": "string",
@@ -161,21 +165,21 @@
     "compile:dev": "tsc --noEmit && esbuild src/extension.ts --bundle --sourcemap --platform=node --external:vscode --outfile=out/extension.js",
     "compile:test": "tsc -p ./tsconfig.test.json",
     "watch": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=out/extension.js --watch",
-    "vscode:prepublish": "node -e \"const fs=require('fs');fs.mkdirSync('icon',{recursive:true});fs.copyFileSync('../../icon/ZeroSyntaxLogo256.png','icon/ZeroSyntaxLogo256.png')\" && npm run compile",
+    "vscode:prepublish": "node -e \"const fs=require('fs');fs.mkdirSync('icon',{recursive:true});fs.copyFileSync('../../resources/ZeroSyntaxLogo256.png','icon/ZeroSyntaxLogo256.png')\" && npm run compile",
     "package": "vsce package --allow-missing-repository",
     "test": "npm run compile && npm run compile:test && node ./out-test/src/test/runTest.js"
   },
   "dependencies": {
-    "vscode-languageclient": "^10.1.0"
+    "vscode-languageclient": "^10.1.1"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^26.2.0",
-    "@types/vscode": "^1.84.0",
+    "@types/node": "^26.4.1",
+    "@types/vscode": "^1.136.0",
     "@vscode/test-electron": "^3.1.0",
     "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.2",
-    "mocha": "^11.8.0",
+    "mocha": "^12.0.0",
     "typescript": "^7.0.2"
   }
 }
