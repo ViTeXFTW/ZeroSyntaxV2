@@ -170,7 +170,7 @@
     "test": "npm run compile && npm run compile:test && node ./out-test/src/test/runTest.js"
   },
   "dependencies": {
-    "vscode-languageclient": "^10.1.1"
+    "vscode-languageclient": "^10.1.2"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
