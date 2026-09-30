@@ -27,6 +27,22 @@ cargo test --release -p zerosyntax-analysis --test corpus -- --ignored --nocaptu
 
 On Windows, use `pwsh scripts/fetch-corpus.ps1`.
 
+## Performance
+
+Run the existing synthetic benchmarks and real-server driver before changing a
+hot path:
+
+```sh
+cargo bench -p zerosyntax-syntax --bench parse
+cargo bench -p zerosyntax-analysis --bench analyze
+cargo build --release -p zerosyntax-server
+python crates/server/tests/typing_latency.py target/release/zerosyntax-lsp
+```
+
+Pull requests warn when a probe regresses by 20% and fail at 50%; loose absolute
+latency ceilings catch emergency-level slowdowns. Profile a failing probe before
+weakening its threshold.
+
 ## Pull requests
 
 - Keep changes focused. Split unrelated fixes into separate PRs.

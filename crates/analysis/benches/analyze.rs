@@ -10,7 +10,9 @@ use std::hint::black_box;
 
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
 use zerosyntax_analysis::diagnostics::DiagnosticsCache;
-use zerosyntax_analysis::{diagnostics, index, semantic, Analyzer};
+use zerosyntax_analysis::{
+    completion, diagnostics, index, semantic, Analyzer, Span, WorkspaceIndex,
+};
 use zerosyntax_syntax::{Edit, Strategy};
 
 /// Same shape as the syntax-crate generator, but kept schema-conformant so the
@@ -98,6 +100,69 @@ fn bench_analyze(c: &mut Criterion) {
             &parse,
             |b, parse| b.iter(|| black_box(index::definitions_in(&analyzer, parse, "bench.ini"))),
         );
+        if lines == 50_000 {
+            group.bench_with_input(
+                BenchmarkId::new("index_refresh", lines),
+                &parse,
+                |b, parse| {
+                    b.iter(|| {
+                        let file = "bench.ini";
+                        let mut index = WorkspaceIndex::new();
+                        index.set_file(file, index::definitions_in(&analyzer, parse, file));
+                        index.set_file_refs(file, index::references_in(&analyzer, parse));
+                        index.set_file_tags(file, index::module_tags_in(&analyzer, parse));
+                        index.set_file_object_models(
+                            file,
+                            index::object_models_in(&analyzer, parse),
+                        );
+                        index.set_file_object_parents(file, index::object_parents_in(parse));
+                        black_box(index)
+                    })
+                },
+            );
+
+            let mut completion_src = src.clone();
+            completion_src.push_str("Weapon CompletionBench\n  ProjectileObject = \nEnd\n");
+            let completion_offset = (completion_src.len() - "\nEnd\n".len()) as u32;
+            let completion_parse = analyzer.parse(&completion_src);
+            let mut completion_index = WorkspaceIndex::new();
+            completion_index.set_file(
+                "bench.ini",
+                index::definitions_in(&analyzer, &completion_parse, "bench.ini"),
+            );
+            assert!(completion::complete(
+                &analyzer,
+                &completion_parse,
+                completion_offset,
+                Some(&completion_index),
+                Some("bench.ini"),
+            )
+            .iter()
+            .any(|item| item.label == "GenBenchTank1"));
+            group.bench_function(BenchmarkId::new("completion_reference", lines), |b| {
+                b.iter(|| {
+                    black_box(completion::complete(
+                        &analyzer,
+                        &completion_parse,
+                        completion_offset,
+                        Some(&completion_index),
+                        Some("bench.ini"),
+                    ))
+                })
+            });
+
+            let start = (src.len() / 2) as u32;
+            let viewport = Span::new(start, (start + 2_000).min(src.len() as u32));
+            group.bench_with_input(
+                BenchmarkId::new("semantic_tokens_range", lines),
+                &parse,
+                |b, parse| {
+                    b.iter(|| {
+                        black_box(semantic::semantic_tokens_range(&analyzer, parse, viewport))
+                    })
+                },
+            );
+        }
         // The full keystroke path as the server ran it pre-Phase-3:
         // full parse + full diagnose.
         group.bench_with_input(BenchmarkId::new("keystroke", lines), &src, |b, src| {

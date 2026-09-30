@@ -27,3 +27,19 @@ jobs:
         run: cargo test --release --locked -p zerosyntax-analysis --test corpus -- --ignored --nocapture
       - name: Corpus incremental equivalence
         run: cargo test --release --locked -p zerosyntax-analysis --test incremental corpus_edit_sequences_match_full_parse -- --ignored --nocapture
+      - name: Corpus performance benchmark
+        run: cargo bench --locked -p zerosyntax-analysis --bench analyze -- corpus
+      - name: Real-server corpus latency
+        run: |
+          cargo build --locked --release -p zerosyntax-server
+          python3 crates/server/tests/typing_latency.py \
+            target/release/zerosyntax-lsp \
+            corpus/GeneralsGamePatch2/GeneralsZH/Data/INI/ParticleSystem.ini \
+            --workspace-root corpus/GeneralsGamePatch2/GeneralsZH/Data/INI \
+            > "$RUNNER_TEMP/server-corpus.json"
+      - name: Check absolute performance ceilings
+        if: always()
+        run: |
+          python3 scripts/check-performance.py \
+            --head "$RUNNER_TEMP/server-corpus.json" \
+            --summary "$GITHUB_STEP_SUMMARY"
